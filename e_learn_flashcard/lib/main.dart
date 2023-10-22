@@ -1,4 +1,4 @@
-import 'package:e_learn_flashcard/pages/PageMenu.dart';
+import 'package:e_learn_flashcard/pages/PageLogin.dart';
 import 'package:flutter/material.dart';
 
 void main() => runApp(MyApp());
@@ -8,7 +8,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Flashcards App',
-      home: PageMenu(),
+      home: GoogleSignInPage(),
     );
   }
 }
