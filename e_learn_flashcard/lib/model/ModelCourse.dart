@@ -1,6 +1,7 @@
 import 'package:e_learn_flashcard/Util/UtilDateTime.dart';
 
 class Course {
+  final String courseId;
   final String courseName;
   final String courseDescription;
   final String topicId;
@@ -11,6 +12,7 @@ class Course {
   final DateTime updatedDate;
 
   Course({
+    required this.courseId,
     required this.courseName,
     required this.courseDescription,
     required this.topicId,
@@ -23,6 +25,7 @@ class Course {
 
   factory Course.fromJson(Map<String, dynamic> json) {
     return Course(
+      courseId: json['courseId'] as String,
       courseName: json['courseName'] as String,
       courseDescription: json['courseDescription'] as String,
       topicId: json['topicId'] as String,
@@ -36,6 +39,7 @@ class Course {
 
   Map<String, dynamic> toJson() {
     return {
+      'courseId': courseId,
       'courseName': courseName,
       'courseDescription': courseDescription,
       'topicId': topicId,

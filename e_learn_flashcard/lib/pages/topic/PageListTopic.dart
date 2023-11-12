@@ -1,11 +1,12 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
+import '../../Util/FetchDataFromAPI.dart';
 import '../../model/ModelGlobalData.dart';
 import '../../model/ModelTopic.dart';
 import 'PageAddTopic.dart';
 import 'PageTopicDetail.dart';
 import 'package:http/http.dart' as http;
-
+import '../../Util/ApiPaths.dart';
 class ListTopicPage extends StatefulWidget {
   @override
   _ListTopicPageState createState() => _ListTopicPageState();
@@ -17,24 +18,16 @@ class _ListTopicPageState extends State<ListTopicPage> {
   @override
   void initState() {
     super.initState();
-    fetchDataFromAPI();
+    final String apiUrl = ApiPaths.getTopicListPath(1, 100);
+    FetchDataFromAPI(apiUrl, setData);
   }
 
-  Future<void> fetchDataFromAPI() async {
-    final String apiUrl = 'http://3.27.242.207/api/Topic';
-
-    final response = await http.get(Uri.parse(apiUrl));
-
-    if (response.statusCode == 200) {
-      // Nếu yêu cầu thành công, giải mã dữ liệu JSON và cập nhật danh sách chủ đề
-      final List<dynamic> data = json.decode(response.body);
-      setState(() {
-        topics = data.map((item) => Topic.fromJson(item)).toList();
-      });
-      GlobalData.ListTopic = topics;
-    } else {
-      print("Loi");
-    }
+  void setData(List<dynamic> data)
+  {
+    setState(() {
+      topics = data.map((item) => Topic.fromJson(item)).toList();
+    });
+    GlobalData.ListTopic = topics;
   }
 
   @override
