@@ -1,6 +1,8 @@
 import 'package:flash_card/flash_card.dart';
 import 'package:flutter/material.dart';
 
+import '../model/ModelFlashCard.dart';
+
 class PageFlashCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -11,17 +13,6 @@ class PageFlashCard extends StatelessWidget {
       body: FlashcardsListView(), // Sử dụng widget FlashcardsListView
     );
   }
-}
-class FlashcardItem {
-  final String key; // Key hoặc ID của flashcard
-  final String meaning; // Nghĩa của flashcard
-  final String phonetic; // Phiên âm của flashcard
-
-  FlashcardItem({
-    required this.key,
-    required this.meaning,
-    required this.phonetic,
-  });
 }
 
 class FlashcardsListView extends StatelessWidget {

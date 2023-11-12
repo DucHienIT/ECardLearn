@@ -1,16 +1,23 @@
+import 'package:e_learn_flashcard/Util/UtilDateTime.dart';
+import 'package:e_learn_flashcard/model/ModelGlobalData.dart';
+import 'package:e_learn_flashcard/pages/user/PageChooseRole.dart';
+import 'package:e_learn_flashcard/pages/PageListCourse.dart';
+import 'package:e_learn_flashcard/pages/topic/PageListTopic.dart';
 import 'package:flutter/material.dart';
-
-import 'PageAddFlashCard.dart';
-import 'PageFlashCard.dart';
-import 'PageProfile.dart';
+import '../Util/AlertManager.dart';
+import '../model/ModelClass.dart';
+import '../model/ModelCourse.dart';
+import '../widget/MainMenuWidget.dart';
+import 'class/PageListClass.dart'; // Import your class list page
 
 class PageMenu extends StatelessWidget {
+  final TextEditingController keywordController = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: Text('Trang chủ'),
-        // Thêm nút để mở menu
         leading: Builder(
           builder: (BuildContext context) {
             return IconButton(
@@ -22,59 +29,92 @@ class PageMenu extends StatelessWidget {
           },
         ),
       ),
-      // Thêm Drawer cho thanh menu
-      drawer: Drawer(
-        child: ListView(
-          padding: EdgeInsets.zero,
+      drawer: MainMenuWidget(),
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.start,
           children: <Widget>[
-            DrawerHeader(
-              decoration: BoxDecoration(
-                color: Colors.blue,
-              ),
-              child: Text(
-                'Menu',
-                style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 24,
-                ),
-              ),
-            ),
-            ListTile(
-              title: Text('Danh sách Flashcard'),
+            SizedBox(height: 20), // Add spacing
+            MainMenuCard(
+              title: 'Quản lý lớp', // Menu category 1
               onTap: () {
+                final List<MyClass> classes = [
+                  MyClass(
+                    className: 'Lớp học A',
+                    classDescription: 'Lớp học mô tả A',
+                    teacherId: 'GV001',
+                    createdUserId: 'User001',
+                    createdDate: DateTime.now(),
+                    updatedUserId: 'User001',
+                    updatedDate: DateTime.now(),
+                  ),
+                  MyClass(
+                    className: 'Lớp học B',
+                    classDescription: 'Lớp học mô tả B',
+                    teacherId: 'GV002',
+                    createdUserId: 'User002',
+                    createdDate: DateTime.now(),
+                    updatedUserId: 'User002',
+                    updatedDate: DateTime.now(),
+                  ),
+                ];
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => PageFlashCard()),
+                  MaterialPageRoute(builder: (context) => ClassListPage(classes: classes)),
                 );
               },
             ),
-            ListTile(
-              title: Text('Thêm Flashcard'),
+            SizedBox(height: 20), // Add spacing
+            MainMenuCard(
+              title: 'Danh sách chủ đề', // Menu category 2
               onTap: () {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => PageAddFlashCard()),
+                  MaterialPageRoute(builder: (context) => ListTopicPage()),
                 );
               },
             ),
-            ListTile(
-              title: Text('Hồ sơ'),
+            SizedBox(height: 20), // Add spacing
+            MainMenuCard(
+              title: 'Test', // Menu category 2
               onTap: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => PageProfile()),
+                print(GlobalData.LoginUser!.id);
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(
+                    content: Text(getCurrentDate()),
+                    duration: const Duration(seconds: 3), // Đặt thời gian hiển thị
+                  ),
                 );
               },
             ),
           ],
         ),
       ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            // Nội dung trang chính của ứng dụng
-          ],
+    );
+  }
+}
+
+class MainMenuCard extends StatelessWidget {
+  final String title;
+  final VoidCallback onTap;
+
+  MainMenuCard({required this.title, required this.onTap});
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      margin: EdgeInsets.symmetric(horizontal: 20), // Thêm lề ngang
+      decoration: BoxDecoration(
+        border: Border.all(color: Colors.grey), // Thêm khung
+        borderRadius: BorderRadius.circular(10), // Bo góc khung
+      ),
+      child: Card(
+        child: ListTile(
+          title: Text(
+            title,
+            style: TextStyle(fontWeight: FontWeight.bold),
+          ),
+          onTap: onTap,
         ),
       ),
     );
