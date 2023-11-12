@@ -1,7 +1,10 @@
+import 'dart:convert';
+
 import 'package:e_learn_flashcard/Util/UtilDateTime.dart';
 import 'package:e_learn_flashcard/model/ModelGlobalData.dart';
+import 'package:e_learn_flashcard/pages/course/PageAddCourse.dart';
 import 'package:e_learn_flashcard/pages/user/PageChooseRole.dart';
-import 'package:e_learn_flashcard/pages/PageListCourse.dart';
+import 'package:e_learn_flashcard/pages/course/PageListCourse.dart';
 import 'package:e_learn_flashcard/pages/topic/PageListTopic.dart';
 import 'package:flutter/material.dart';
 import '../Util/AlertManager.dart';
@@ -76,12 +79,22 @@ class PageMenu extends StatelessWidget {
             ),
             SizedBox(height: 20), // Add spacing
             MainMenuCard(
+              title: 'Danh sách bài học', // Menu category 2
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => ListCoursePage()),
+                );
+              },
+            ),
+            SizedBox(height: 20), // Add spacing
+            MainMenuCard(
               title: 'Test', // Menu category 2
               onTap: () {
-                print(GlobalData.LoginUser!.id);
+                print(GlobalData.Token);
                 ScaffoldMessenger.of(context).showSnackBar(
                   SnackBar(
-                    content: Text(getCurrentDate()),
+                    content: Text(jsonEncode(GlobalData.ListTopic)),
                     duration: const Duration(seconds: 3), // Đặt thời gian hiển thị
                   ),
                 );

@@ -1,23 +1,25 @@
 import 'dart:convert';
 
-import 'package:e_learn_flashcard/pages/topic/PageListTopic.dart';
+import 'package:e_learn_flashcard/model/ModelTopic.dart';
+import 'package:e_learn_flashcard/pages/course/PageListCourse.dart';
 import 'package:flutter/material.dart';
 
 import '../../model/ModelGlobalData.dart';
 import 'package:http/http.dart' as http;
-import '../../Util/UtilDateTime.dart';
 
-class AddTopicPage extends StatefulWidget {
+class AddCoursePage extends StatefulWidget {
   @override
-  _AddTopicPageState createState() => _AddTopicPageState();
+  _AddCoursePageState createState() => _AddCoursePageState();
 }
 
-class _AddTopicPageState extends State<AddTopicPage> {
+class _AddCoursePageState extends State<AddCoursePage> {
   TextEditingController topicNameController = TextEditingController();
   TextEditingController topicDescriptionController = TextEditingController();
 
+  late String selectedTopic = '';
+
   Future<void> sendAddTopicRequest() async {
-    final String apiUrl = 'http://3.27.242.207/api/Topic';
+    final String apiUrl = 'http://3.27.242.207/api/Course';
 
     try {
       final response = await http.post(
@@ -27,8 +29,10 @@ class _AddTopicPageState extends State<AddTopicPage> {
           'token': GlobalData.Token.toString(),
         },
         body: jsonEncode({
-          'topicName': topicNameController.text,
-          'topicDescription': topicDescriptionController.text,
+          'courseName': topicNameController.text,
+          'courseDescription': topicDescriptionController.text,
+          'topicId': 'eb629555-f23f-4215-fc55-08dbe350dd95',
+          'teacherId': GlobalData.LoginUser!.id
         }),
       );
 
@@ -36,7 +40,7 @@ class _AddTopicPageState extends State<AddTopicPage> {
         Navigator.push(
           context,
           MaterialPageRoute(
-            builder: (context) => ListTopicPage(),
+            builder: (context) => ListCoursePage(),
           ),
         );
       } else {
@@ -56,7 +60,7 @@ class _AddTopicPageState extends State<AddTopicPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Thêm Chủ Đề'),
+        title: Text('Thêm Bài Học'),
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
@@ -66,12 +70,12 @@ class _AddTopicPageState extends State<AddTopicPage> {
           children: [
             TextField(
               controller: topicNameController,
-              decoration: InputDecoration(labelText: 'Tên Chủ Đề'),
+              decoration: InputDecoration(labelText: 'Tên Bài Học'),
             ),
             SizedBox(height: 20),
             TextField(
               controller: topicDescriptionController,
-              decoration: InputDecoration(labelText: 'Mô tả Chủ Đề'),
+              decoration: InputDecoration(labelText: 'Mô tả Bài Học'),
             ),
             SizedBox(height: 20),
             ElevatedButton(

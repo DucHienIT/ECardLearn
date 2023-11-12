@@ -1,3 +1,5 @@
+import 'package:e_learn_flashcard/Util/UtilDateTime.dart';
+
 class Course {
   final String courseName;
   final String courseDescription;
@@ -25,10 +27,10 @@ class Course {
       courseDescription: json['courseDescription'] as String,
       topicId: json['topicId'] as String,
       teacherId: json['teacherId'] as String,
-      createdUserId: json['createdUserId'] as String,
+      createdUserId: json['createdUserId'] != null ? json['createdUserId'] as String : '',
       createdDate: DateTime.parse(json['createdDate']),
-      updatedUserId: json['updatedUserId'] as String,
-      updatedDate: DateTime.parse(json['updatedDate']),
+      updatedUserId: json['updatedUserId'] != null ? json['updatedUserId'] as String : '',
+      updatedDate: json['updatedDate'] != null ? DateTime.parse(json['updatedDate']) : DateTime.now(),
     );
   }
 

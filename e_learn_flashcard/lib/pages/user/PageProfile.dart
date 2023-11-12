@@ -45,7 +45,7 @@ class PageProfile extends StatelessWidget {
           const Divider(),
           ListTile(
             leading: const Icon(Icons.book),
-            title: const Text('Danh sách bài học'),
+            title: const Text('Danh sách lớp học'),
             onTap: () {
               // Do something
             },
