@@ -1,4 +1,5 @@
 import 'package:e_learn_flashcard/model/ModelGlobalData.dart';
+import 'package:e_learn_flashcard/pages/user/PageChooseRole.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import '../../Util/AlertManager.dart';
@@ -40,24 +41,9 @@ class _LoginPageState extends State<LoginPage> {
       GlobalData.Token = json.decode(response.body)["token"];
       GlobalData.saveData("token", GlobalData.Token.toString());
       print(GlobalData.Token);
-      if (user.roles != null && user.roles.isNotEmpty) {
-        // Navigate to PageChooseRole
-        Navigator.of(context).pushReplacement(MaterialPageRoute(
-          builder: (context) => PageMenu(),
-        ));
-      } else {
-        showDialog(
-          context: context,
-          builder: (BuildContext context) {
-            return MyAlertDialog(
-              message: "Bạn chưa chọn vai trò, đi nào!",
-              onAction: () {
-                print("Action performed!");
-              },
-            );
-          },
-        );
-      }
+      Navigator.of(context).pushReplacement(MaterialPageRoute(
+        builder: (context) => PageMenu(),
+      ));
     } else {
       // Xử lý lỗi, hiển thị thông báo hoặc thực hiện hành động tương ứng.
     }

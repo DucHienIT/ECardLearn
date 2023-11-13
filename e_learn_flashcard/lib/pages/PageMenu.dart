@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:e_learn_flashcard/model/ModelGlobalData.dart';
 import 'package:e_learn_flashcard/pages/course/PageListCourse.dart';
 import 'package:e_learn_flashcard/pages/topic/PageListTopic.dart';
+import 'package:e_learn_flashcard/pages/user/PageChooseRole.dart';
 import 'package:flutter/material.dart';
 import '../model/ModelClass.dart';
 import '../widget/MainMenuWidget.dart';
@@ -86,12 +87,9 @@ class PageMenu extends StatelessWidget {
             MainMenuCard(
               title: 'Test', // Menu category 2
               onTap: () {
-                print(GlobalData.Token);
-                ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(
-                    content: Text(jsonEncode(GlobalData.ListTopic)),
-                    duration: const Duration(seconds: 3), // Đặt thời gian hiển thị
-                  ),
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => ChooseRolePage()),
                 );
               },
             ),

@@ -58,14 +58,12 @@ class _SignUpPageState extends State<SignUpPage> {
   }
 
   Future<void> _selectDate(BuildContext context) async {
-    initializeDateFormatting('vi_VN'); // Đảm bảo ngôn ngữ được định dạng đúng
 
     DateTime? picked = await showDatePicker(
       context: context,
       initialDate: selectedDate,
       firstDate: DateTime(1900),
       lastDate: DateTime.now(),
-      locale: const Locale('vi', 'VN'), // Chọn ngôn ngữ cho thanh chọn ngày
     );
 
     if (picked != null && picked != selectedDate) {
@@ -80,8 +78,8 @@ class _SignUpPageState extends State<SignUpPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Đăng ký'),
         backgroundColor: Colors.purple,
+          automaticallyImplyLeading: false
       ),
       body: SingleChildScrollView(
         padding: EdgeInsets.all(16.0),

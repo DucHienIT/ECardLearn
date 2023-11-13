@@ -1,5 +1,8 @@
 import 'dart:convert';
+import 'dart:async';
 
+import 'package:e_learn_flashcard/Util/ApiPaths.dart';
+import 'package:e_learn_flashcard/Util/UtilCallApi.dart';
 import 'package:e_learn_flashcard/model/ModelGlobalData.dart';
 import 'package:e_learn_flashcard/pages/PageMenu.dart';
 import 'package:e_learn_flashcard/pages/user/PageSignIn.dart';
@@ -15,42 +18,17 @@ class ChooseRolePage extends StatefulWidget {
 
 class _ChooseRolePageState extends State<ChooseRolePage> {
   List<String> roles = ["Student", "Teacher"];
-  String selectedRole = "";
+  String selectedRole = "Student";
+  final String apiUrl = ApiPaths.getChooseRolePath();
 
-  Future<void> sendRoleRequest(String selectedRole) async {
+  void sendRole()
+  {
+    setState(() {
+      Map<String, dynamic> data = {
 
-    final String apiUrl = 'http://3.27.242.207/api/Authentication/RequestRole';
-
-    final response = await http.post(
-      Uri.parse(apiUrl),
-      headers: {
-        'Content-Type': 'application/json',
-        'token': GlobalData.Token.toString()
-      },
-      body: jsonEncode({
-        'userRole': selectedRole,
-      }),
-    );
-    if (response.statusCode == 200) {
-      Navigator.of(context).pushReplacement(MaterialPageRoute(
-        builder: (context) => PageMenu(),
-      ));
-    }
-    else {
-      showDialog(
-        context: context,
-        builder: (BuildContext context) {
-          return MyAlertDialog(
-            message: "Có lỗi xảy ra, vui lòng đăng nhập lại!",
-            onAction: () {
-              Navigator.of(context).pushReplacement(MaterialPageRoute(
-                builder: (context) => LoginPage(),
-              ));
-            },
-          );
-        },
-      );
-    }
+      };
+      PostDataFromAPI(apiUrl, data);
+    });
   }
 
   @override
@@ -84,24 +62,10 @@ class _ChooseRolePageState extends State<ChooseRolePage> {
           Padding(
             padding: const EdgeInsets.all(16.0),
             child: ElevatedButton(
-              onPressed: () {
-                if (selectedRole.isEmpty){
-                  showDialog(
-                    context: context,
-                    builder: (BuildContext context) {
-                      return MyAlertDialog(
-                        message: "Vui lòng chọn vai trò!",
-                        onAction: () {
-
-                        },
-                      );
-                    },
-                  );
-                }
-                sendRoleRequest(selectedRole);
-              },
+              onPressed: sendRole,
               child: Text('Submit'),
             ),
+
           ),
         ],
       ),

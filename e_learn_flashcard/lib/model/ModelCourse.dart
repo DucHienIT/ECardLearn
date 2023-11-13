@@ -1,10 +1,13 @@
-import 'package:e_learn_flashcard/Util/UtilDateTime.dart';
+import 'ModelQuestion.dart';
+import 'ModelTopic.dart';
 
 class Course {
   final String courseId;
   final String courseName;
   final String courseDescription;
   final String topicId;
+  final Topic topic;
+  final List<Question> questions;
   final String teacherId;
   final String createdUserId;
   final DateTime createdDate;
@@ -16,6 +19,8 @@ class Course {
     required this.courseName,
     required this.courseDescription,
     required this.topicId,
+    required this.topic,
+    required this.questions,
     required this.teacherId,
     required this.createdUserId,
     required this.createdDate,
@@ -29,6 +34,8 @@ class Course {
       courseName: json['courseName'] as String,
       courseDescription: json['courseDescription'] as String,
       topicId: json['topicId'] as String,
+      topic: Topic.fromJson(json['topic'] as Map<String, dynamic>), // Thêm phần này
+      questions: (json['questions'] as List<dynamic>).map((q) => Question.fromJson(q as Map<String, dynamic>)).toList(), // Thêm phần này
       teacherId: json['teacherId'] as String,
       createdUserId: json['createdUserId'] != null ? json['createdUserId'] as String : '',
       createdDate: DateTime.parse(json['createdDate']),
@@ -43,6 +50,8 @@ class Course {
       'courseName': courseName,
       'courseDescription': courseDescription,
       'topicId': topicId,
+      'topic': topic.toJson(), // Thêm phần này
+      'questions': questions.map((q) => q.toJson()).toList(), // Thêm phần này
       'teacherId': teacherId,
       'createdUserId': createdUserId,
       'createdDate': createdDate.toIso8601String(),

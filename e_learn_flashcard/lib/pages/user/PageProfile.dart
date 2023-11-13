@@ -1,3 +1,5 @@
+import 'package:e_learn_flashcard/Util/ApiPaths.dart';
+import 'package:e_learn_flashcard/Util/UtilCallApi.dart';
 import 'package:e_learn_flashcard/model/ModelUser.dart'; // Import ModelUser
 import 'package:flutter/material.dart';
 
@@ -11,6 +13,12 @@ class PageProfile extends StatelessWidget {
 
   // Thay thế LoginUser bằng dữ liệu từ GlobalData
   final user = GlobalData.LoginUser;
+
+  void Logout()
+  {
+    final String apiLogout = ApiPaths.getLogoutPath();
+    FetchDataFromAPI(apiLogout, (p0) => null);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -72,6 +80,7 @@ class PageProfile extends StatelessWidget {
             title: const Text('Đăng xuất'),
             onTap: () {
               user?.clearUserData();
+              Logout();
               Navigator.of(context).pushReplacement(MaterialPageRoute(
                 builder: (context) => LoginPage(),
               ));

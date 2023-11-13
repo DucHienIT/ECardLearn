@@ -1,16 +1,20 @@
+import 'ModelAnswer.dart';
+
 class Question {
+  final String questionId;
   final String questionString;
-  final String correctAnswerId;
   final String courseId;
+  final List<Answer> answers;
   final String createdUserId;
   final DateTime createdDate;
   final String updatedUserId;
   final DateTime updatedDate;
 
   Question({
+    required this.questionId,
     required this.questionString,
-    required this.correctAnswerId,
     required this.courseId,
+    required this.answers,
     required this.createdUserId,
     required this.createdDate,
     required this.updatedUserId,
@@ -18,22 +22,27 @@ class Question {
   });
 
   factory Question.fromJson(Map<String, dynamic> json) {
+    var answerList = json['answers'] as List;
+    List<Answer> answers = answerList.map((i) => Answer.fromJson(i)).toList();
+
     return Question(
+      questionId: json['questionId'] as String,
       questionString: json['questionString'] as String,
-      correctAnswerId: json['correctAnswerId'] as String,
       courseId: json['courseId'] as String,
-      createdUserId: json['createdUserId'] as String,
-      createdDate: DateTime.parse(json['createdDate']),
-      updatedUserId: json['updatedUserId'] as String,
-      updatedDate: DateTime.parse(json['updatedDate']),
+      answers: answers,
+      createdUserId: json['createdUserId'] != null ?  json['createdUserId'] as String : '',
+      createdDate: json['createdDate'] != null ? DateTime.parse(json['createdDate']) : DateTime.now(),
+      updatedUserId: json['updatedUserId'] != null ? json['updatedUserId'] as String : '',
+      updatedDate: json['updatedDate'] != null ? DateTime.parse(json['updatedDate']) : DateTime.now(),
     );
   }
 
   Map<String, dynamic> toJson() {
     return {
+      'questionId': questionId,
       'questionString': questionString,
-      'correctAnswerId': correctAnswerId,
       'courseId': courseId,
+      'answers': answers.map((answer) => answer.toJson()).toList(),
       'createdUserId': createdUserId,
       'createdDate': createdDate.toIso8601String(),
       'updatedUserId': updatedUserId,

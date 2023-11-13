@@ -1,9 +1,9 @@
 import 'dart:convert';
+import 'package:e_learn_flashcard/Util/ApiPaths.dart';
 import 'package:e_learn_flashcard/model/ModelTopic.dart';
 import 'package:e_learn_flashcard/pages/course/PageListCourse.dart';
 import 'package:flutter/material.dart';
-import '../../Util/ApiPaths.dart';
-import '../../Util/FetchDataFromAPI.dart';
+import '../../Util/UtilCallApi.dart';
 import '../../model/ModelGlobalData.dart';
 import 'package:http/http.dart' as http;
 
@@ -35,7 +35,7 @@ class _AddCoursePageState extends State<AddCoursePage> {
     });
 
     try {
-      final String apiUrl = 'http://3.27.242.207/api/Topic';
+      final String apiUrl = ApiPaths.getTopicListPath(1, 100);
       await FetchDataFromAPI(apiUrl, setData);
     } finally {
       setState(() {
