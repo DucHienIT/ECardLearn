@@ -7,6 +7,7 @@ import 'PageAddTopic.dart';
 import 'PageTopicDetail.dart';
 import 'package:http/http.dart' as http;
 import '../../Util/ApiPaths.dart';
+
 class ListTopicPage extends StatefulWidget {
   @override
   _ListTopicPageState createState() => _ListTopicPageState();
@@ -36,30 +37,51 @@ class _ListTopicPageState extends State<ListTopicPage> {
       appBar: AppBar(
         title: Text('Danh sách chủ đề'),
       ),
-      body: ListView.builder(
+      body: GridView.builder(
         itemCount: topics.length,
+        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+          crossAxisCount: 2,
+          childAspectRatio: 3 / 2,
+        ),
         itemBuilder: (context, index) {
-          return ListTile(
-            title: Text(topics[index].topicName),
-            subtitle: Text(topics[index].topicDescription),
-            onTap: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => TopicDetailPage(topic: topics[index]),
-                ),
-              );
-            },
+          return Card(
+            color: Colors.lightBlue[50], // This will change the color of your items
+            shape: RoundedRectangleBorder(
+              side: BorderSide(color: Colors.black, width: 1), // This will add a border to your items
+              borderRadius: BorderRadius.circular(10), // This will round the corners of your items
+            ),
+            child: InkWell(
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => TopicDetailPage(topic: topics[index]),
+                  ),
+                );
+              },
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  Text(
+                    topics[index].topicName,
+                    style: TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.black, // This will change the color of your text
+                    ),
+                  ),
+                ],
+              ),
+            ),
           );
         },
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          // Xử lý khi nút được nhấn, ví dụ: điều hướng đến trang thêm Topic
           Navigator.push(
             context,
             MaterialPageRoute(
-              builder: (context) => AddTopicPage(), // Thay thế AddTopicPage bằng tên trang thêm Topic của bạn
+              builder: (context) => AddTopicPage(),
             ),
           );
         },

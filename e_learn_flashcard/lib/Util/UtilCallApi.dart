@@ -10,7 +10,7 @@ Future<void> FetchDataFromAPI(String apiUrl, Function(List<dynamic>) onAction) a
     Uri.parse(apiUrl),
     headers: {
       'Content-Type': 'application/json',
-      'token': GlobalData.Token.toString(),
+      'Authorization': 'Bearer ${GlobalData.Token}',
     },
   );
 
@@ -21,18 +21,19 @@ Future<void> FetchDataFromAPI(String apiUrl, Function(List<dynamic>) onAction) a
   }
 }
 
-Future<void>  PostDataFromAPI(String apiUrl, Map<String, dynamic> dataBody) async {
+Future<void>  PostDataFromAPI(String apiUrl, Map<String, dynamic> dataBody, VoidCallback onAction) async {
   final response = await http.post(
     Uri.parse(apiUrl),
     headers: {
       'Content-Type': 'application/json',
-      'token': GlobalData.Token.toString(),
+      'Authorization': 'Bearer ${GlobalData.Token}',
     },
     body: jsonEncode(dataBody),
   );
 
   if (response.statusCode == 200) {
     print(response.body);
+    onAction();
   } else {
     print(response.body);
   }
@@ -42,7 +43,7 @@ Future<void> AddDataFromAPI(String apiUrl, Map<String, dynamic> dataBody, Functi
     Uri.parse(apiUrl),
     headers: {
       'Content-Type': 'application/json',
-      'token': GlobalData.Token.toString(),
+      'Authorization': 'Bearer ${GlobalData.Token}',
     },
     body: jsonEncode(dataBody),
   );
@@ -61,7 +62,7 @@ Future<void>  UpdateDataFromAPI(String apiUrl, Map<String, dynamic> dataBody) as
     Uri.parse(apiUrl),
     headers: {
       'Content-Type': 'application/json',
-      'token': GlobalData.Token.toString(),
+      'Authorization': 'Bearer ${GlobalData.Token}',
     },
     body: jsonEncode(dataBody),
   );
@@ -80,7 +81,7 @@ Future<void> DeleteDataFromAPI(String apiUrl, VoidCallback onAction) async {
     Uri.parse(apiUrl),
     headers: {
       'Content-Type': 'application/json',
-      'token': GlobalData.Token.toString(),
+      'Authorization': 'Bearer ${GlobalData.Token}',
     },
   );
 

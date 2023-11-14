@@ -3,13 +3,9 @@ import 'dart:async';
 
 import 'package:e_learn_flashcard/Util/ApiPaths.dart';
 import 'package:e_learn_flashcard/Util/UtilCallApi.dart';
-import 'package:e_learn_flashcard/model/ModelGlobalData.dart';
 import 'package:e_learn_flashcard/pages/PageMenu.dart';
-import 'package:e_learn_flashcard/pages/user/PageSignIn.dart';
 import 'package:flutter/material.dart';
-import 'package:http/http.dart' as http;
 
-import '../../Util/AlertManager.dart';
 
 class ChooseRolePage extends StatefulWidget {
   @override
@@ -18,16 +14,20 @@ class ChooseRolePage extends StatefulWidget {
 
 class _ChooseRolePageState extends State<ChooseRolePage> {
   List<String> roles = ["Student", "Teacher"];
-  String selectedRole = "Student";
+  String selectedRole = "";
   final String apiUrl = ApiPaths.getChooseRolePath();
 
   void sendRole()
   {
     setState(() {
       Map<String, dynamic> data = {
-
+        "userRole": selectedRole
       };
-      PostDataFromAPI(apiUrl, data);
+      PostDataFromAPI(apiUrl, data, (){
+        Navigator.of(context).pushReplacement(MaterialPageRoute(
+          builder: (context) => PageMenu(),
+        ));
+      });
     });
   }
 

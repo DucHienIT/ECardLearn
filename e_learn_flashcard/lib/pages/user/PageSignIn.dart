@@ -41,9 +41,26 @@ class _LoginPageState extends State<LoginPage> {
       GlobalData.Token = json.decode(response.body)["token"];
       GlobalData.saveData("token", GlobalData.Token.toString());
       print(GlobalData.Token);
-      Navigator.of(context).pushReplacement(MaterialPageRoute(
-        builder: (context) => PageMenu(),
-      ));
+      if (user.roles != null && user.roles.isNotEmpty) {
+        // Navigate to PageChooseRole
+        Navigator.of(context).pushReplacement(MaterialPageRoute(
+          builder: (context) => PageMenu(),
+        ));
+      } else {
+        showDialog(
+          context: context,
+          builder: (BuildContext context) {
+            return MyAlertDialog(
+              message: "Bạn chưa chọn vai trò, đi nào!",
+              onAction: () {
+                Navigator.of(context).pushReplacement(MaterialPageRoute(
+                  builder: (context) => ChooseRolePage(),
+                ));
+              },
+            );
+          },
+        );
+      }
     } else {
       // Xử lý lỗi, hiển thị thông báo hoặc thực hiện hành động tương ứng.
     }

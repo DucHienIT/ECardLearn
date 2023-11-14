@@ -59,7 +59,7 @@ class _AddCoursePageState extends State<AddCoursePage> {
         Uri.parse(apiUrl),
         headers: {
           'Content-Type': 'application/json',
-          'token': GlobalData.Token.toString(),
+          'Authorization': 'Bearer ${GlobalData.Token}',
         },
         body: jsonEncode({
           'courseName': courseNameController.text,

@@ -1,4 +1,5 @@
 import 'package:e_learn_flashcard/Util/ApiPaths.dart';
+import 'package:e_learn_flashcard/model/ModelGlobalData.dart';
 import 'package:flutter/material.dart';
 
 import '../../Util/UtilCallApi.dart';
@@ -23,13 +24,19 @@ class _DetailCoursePageState extends State<DetailCoursePage> {
   List<FlashcardItem> flashcards = [];
   int currentQuestionIndex = 0;
 
+  bool isCourseOwner = false;
+
+
   @override
   void initState() {
     super.initState();
     course = widget.course;
+    if (course.teacherId == GlobalData.LoginUser!.id) {
+      isCourseOwner = true;
+    }
     flashcards = course.questions.map((question) => FlashcardItem(
       key: question.questionString,
-      meaning: question.answers.toString(),
+      meaning: getCorrectAns(question),
       phonetic: '', // You might want to add a 'phonetic' field to your Question model
     )).toList();
   }
@@ -57,6 +64,16 @@ class _DetailCoursePageState extends State<DetailCoursePage> {
     });
   }
 
+  String getCorrectAns(Question question) {
+    for (Answer element in question.answers) {
+      if (element.isCorrect) {
+        return element.answerString;
+      }
+    }
+    return '';
+  }
+
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -68,7 +85,7 @@ class _DetailCoursePageState extends State<DetailCoursePage> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Text(
-              'Câu hỏi ${currentQuestionIndex + 1}/${flashcards.length}:',
+              'Câu hỏi ${flashcards.length == 0 ? 0 : currentQuestionIndex + 1}/${flashcards.length}:',
               style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
             ),
             SizedBox(height: 20),
@@ -91,19 +108,23 @@ class _DetailCoursePageState extends State<DetailCoursePage> {
           ],
         ),
       ),
-      floatingActionButton: FloatingActionButton(
+      floatingActionButton: isCourseOwner
+          ? FloatingActionButton(
         onPressed: () {
-          // Navigate to a new page to add a question
           Navigator.push(
             context,
             MaterialPageRoute(
-              builder: (context) => AddQuestionPage(currentCourse: course, onQuestionAdded: addQuestion),
+              builder: (context) => AddQuestionPage(
+                currentCourse: course,
+                onQuestionAdded: addQuestion,
+              ),
             ),
           );
         },
         child: Icon(Icons.add),
         backgroundColor: Colors.green,
-      ),
+      )
+          : null,
     );
   }
 

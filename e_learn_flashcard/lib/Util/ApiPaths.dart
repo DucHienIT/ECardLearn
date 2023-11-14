@@ -18,6 +18,9 @@ class ApiPaths {
   static String getCourseListByTeacherIdPath(String teacherId) {
     return '$baseUrl/Course/GetByTeacherId/$teacherId';
   }
+  static String getCourseListByTopicIdPath(String topicId) {
+    return '$baseUrl/Course/GetByTopicId/$topicId';
+  }
   static String getTopicListPath(int pageNumber, int pageSize) {
     return '$baseUrl/Topic?PageNumber=$pageNumber&PageSize=$pageSize';
   }
