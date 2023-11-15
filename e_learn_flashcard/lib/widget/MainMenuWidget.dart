@@ -1,3 +1,5 @@
+import 'package:e_learn_flashcard/pages/class/PageListClass.dart';
+import 'package:e_learn_flashcard/pages/course/PageListCourse.dart';
 import 'package:flutter/material.dart';
 import '../pages/PageAddFlashCard.dart';
 import '../pages/PageFlashCard.dart';
@@ -23,22 +25,22 @@ class MainMenuWidget extends StatelessWidget {
             ),
           ),
           ListTile(
-            title: Text('Danh sách Flashcard'),
+            title: Text('Lớp học của bạn'),
             onTap: () {
               Navigator.pop(context);
               Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => PageFlashCard()),
+                MaterialPageRoute(builder: (context) => ClassListPage()),
               );
             },
           ),
           ListTile(
-            title: Text('Thêm Flashcard'),
+            title: Text('Bài học của bạn'),
             onTap: () {
               Navigator.pop(context);
               Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => PageAddFlashCard()),
+                MaterialPageRoute(builder: (context) => ListCoursePage()),
               );
             },
           ),

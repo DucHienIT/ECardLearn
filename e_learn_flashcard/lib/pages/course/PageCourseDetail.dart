@@ -2,6 +2,7 @@ import 'package:e_learn_flashcard/Util/ApiPaths.dart';
 import 'package:e_learn_flashcard/model/ModelGlobalData.dart';
 import 'package:flutter/material.dart';
 
+import '../../Util/AlertManager.dart';
 import '../../Util/UtilCallApi.dart';
 import '../../model/ModelAnswer.dart';
 import '../../model/ModelCourse.dart';
@@ -46,6 +47,12 @@ class _DetailCoursePageState extends State<DetailCoursePage> {
       String apiUrl = ApiPaths.getQuestionIdPath(question.questionId);
       UpdateDataFromAPI(apiUrl, question.toJson());
     });
+    course.questions.add(question);
+    flashcards = course.questions.map((question) => FlashcardItem(
+      key: question.questionString,
+      meaning: getCorrectAns(question),
+      phonetic: '', // You might want to add a 'phonetic' field to your Question model
+    )).toList();
   }
 
   void nextQuestion() {
@@ -61,6 +68,21 @@ class _DetailCoursePageState extends State<DetailCoursePage> {
       if (currentQuestionIndex > 0) {
         currentQuestionIndex--;
       }
+    });
+  }
+  void deleteFlashCardItem() {
+    setState(() {
+      var currentQuest = course.questions[currentQuestionIndex];
+      String apiUrl = ApiPaths.getQuestionIdPath(currentQuest.questionId);
+      DeleteDataFromAPI(apiUrl, (){
+        course.questions.remove(currentQuest);
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(
+            builder: (context) => DetailCoursePage(course: course),
+          ),
+        );
+      });
     });
   }
 
@@ -99,10 +121,15 @@ class _DetailCoursePageState extends State<DetailCoursePage> {
                   icon: Icon(Icons.arrow_back),
                   onPressed: previousQuestion,
                 ),
+                if (isCourseOwner) IconButton(
+                  icon: Icon(Icons.delete),
+                  onPressed: deleteFlashCardItem ,
+                ),
                 IconButton(
                   icon: Icon(Icons.arrow_forward),
                   onPressed: nextQuestion,
                 ),
+
               ],
             ),
           ],

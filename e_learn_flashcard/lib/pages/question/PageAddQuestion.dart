@@ -1,5 +1,6 @@
 import 'package:e_learn_flashcard/model/ModelCourse.dart';
 import 'package:e_learn_flashcard/model/ModelGlobalData.dart';
+import 'package:e_learn_flashcard/pages/course/PageCourseDetail.dart';
 import 'package:flutter/material.dart';
 
 import '../../Util/ApiPaths.dart';
@@ -137,10 +138,7 @@ class _AddQuestionPageState extends State<AddQuestionPage> {
                   updatedUserId: GlobalData.LoginUser!.id,
                   updatedDate: DateTime.now(),
                 );
-
-
                 widget.onQuestionAdded(newQuestion);
-
                 Navigator.pop(context);
               },
               child: Text('Thêm câu hỏi'),

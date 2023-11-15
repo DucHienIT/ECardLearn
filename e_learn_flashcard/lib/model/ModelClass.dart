@@ -1,4 +1,5 @@
 class MyClass {
+  final String classId;
   final String className;
   final String classDescription;
   final String teacherId;
@@ -8,6 +9,7 @@ class MyClass {
   final DateTime updatedDate;
 
   MyClass({
+    required this.classId,
     required this.className,
     required this.classDescription,
     required this.teacherId,
@@ -19,13 +21,14 @@ class MyClass {
 
   factory MyClass.fromJson(Map<String, dynamic> json) {
     return MyClass(
+      classId: json['classId'] as String,
       className: json['className'] as String,
       classDescription: json['classDescription'] as String,
       teacherId: json['teacherId'] as String,
       createdUserId: json['createdUserId'] as String,
-      createdDate: DateTime.parse(json['createdDate']),
-      updatedUserId: json['updatedUserId'] as String,
-      updatedDate: DateTime.parse(json['updatedDate']),
+      createdDate:json['createdDate'] != null ? DateTime.parse(json['createdDate']) : DateTime.now(),
+      updatedUserId: json['updatedUserId'] != null ? json['updatedUserId'] as String : '',
+      updatedDate:json['updatedDate'] != null ? DateTime.parse(json['updatedDate']) : DateTime.now(),
     );
   }
 

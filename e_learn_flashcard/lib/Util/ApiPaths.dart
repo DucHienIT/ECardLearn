@@ -33,4 +33,13 @@ class ApiPaths {
   static String getClassPath() {
     return '$baseUrl/Class';
   }
+  static String getClassIdPath(String id) {
+    return '$baseUrl/Class/$id';
+  }
+  static String getListClassByIdStudentPath(String id) {
+    return '$baseUrl/StudentJoinClass/GetClassByStudentId/$id';
+  }
+  static String getListClassByIdTeacherPath(String id) {
+    return '$baseUrl/Class/GetByTeacherId/$id';
+  }
 }

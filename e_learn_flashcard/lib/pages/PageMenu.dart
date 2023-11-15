@@ -37,29 +37,9 @@ class PageMenu extends StatelessWidget {
             MainMenuCard(
               title: 'Quản lý lớp', // Menu category 1
               onTap: () {
-                final List<MyClass> classes = [
-                  MyClass(
-                    className: 'Lớp học A',
-                    classDescription: 'Lớp học mô tả A',
-                    teacherId: 'GV001',
-                    createdUserId: 'User001',
-                    createdDate: DateTime.now(),
-                    updatedUserId: 'User001',
-                    updatedDate: DateTime.now(),
-                  ),
-                  MyClass(
-                    className: 'Lớp học B',
-                    classDescription: 'Lớp học mô tả B',
-                    teacherId: 'GV002',
-                    createdUserId: 'User002',
-                    createdDate: DateTime.now(),
-                    updatedUserId: 'User002',
-                    updatedDate: DateTime.now(),
-                  ),
-                ];
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => ClassListPage(classes: classes)),
+                  MaterialPageRoute(builder: (context) => ClassListPage()),
                 );
               },
             ),

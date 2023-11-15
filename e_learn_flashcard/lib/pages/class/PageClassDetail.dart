@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 
 import '../../model/ModelClass.dart';
+import '../../widget/ClassMenuWidget.dart';
+import '../../widget/MainMenuWidget.dart';
 
 class ClassDetailPage extends StatelessWidget {
   final MyClass myClass;
@@ -12,7 +14,16 @@ class ClassDetailPage extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: Text('Chi tiết lớp học'),
+        actions: <Widget>[
+          Builder(
+            builder: (context) => IconButton(
+              icon: Icon(Icons.menu),
+              onPressed: () => Scaffold.of(context).openEndDrawer(),
+            ),
+          ),
+        ],
       ),
+      endDrawer: ClassMenuWidget(),
       body: Padding(
         padding: EdgeInsets.all(16.0),
         child: Column(
