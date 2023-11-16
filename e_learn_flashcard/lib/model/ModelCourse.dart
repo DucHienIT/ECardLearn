@@ -1,3 +1,5 @@
+import 'package:e_learn_flashcard/model/ModelGlobalData.dart';
+
 import 'ModelQuestion.dart';
 import 'ModelTopic.dart';
 
@@ -30,13 +32,13 @@ class Course {
 
   factory Course.fromJson(Map<String, dynamic> json) {
     return Course(
-      courseId: json['courseId'] as String,
-      courseName: json['courseName'] as String,
-      courseDescription: json['courseDescription'] as String,
+      courseId: json['courseId'] != null ? json['courseId'] as String : '',
+      courseName: json['courseName'] != null ? json['courseName'] as String : '',
+      courseDescription:json['courseDescription'] != null ? json['courseDescription'] as String : '',
       topicId: json['topicId'] as String,
-      topic: Topic.fromJson(json['topic'] as Map<String, dynamic>), // Thêm phần này
-      questions: (json['questions'] as List<dynamic>).map((q) => Question.fromJson(q as Map<String, dynamic>)).toList(), // Thêm phần này
-      teacherId: json['teacherId'] as String,
+      topic: json['topic'] != null ? Topic.fromJson(json['topic'] as Map<String, dynamic>) : Topic.defaultTopic(), // Thêm phần này
+      questions:json['questions'] != null ? (json['questions'] as List<dynamic>).map((q) => Question.fromJson(q as Map<String, dynamic>)).toList() : [], // Thêm phần này
+      teacherId: json['teacherId'] != null ? json['teacherId'] as String : '',
       createdUserId: json['createdUserId'] != null ? json['createdUserId'] as String : '',
       createdDate: DateTime.parse(json['createdDate']),
       updatedUserId: json['updatedUserId'] != null ? json['updatedUserId'] as String : '',

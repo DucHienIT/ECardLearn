@@ -1,6 +1,9 @@
 class ApiPaths {
   static const String baseUrl = 'http://3.27.242.207/api';
 
+  static String getLoginPath() {
+    return '$baseUrl/Authentication/Login';
+  }
   static String getLogoutPath() {
     return '$baseUrl/Authentication/Logout';
   }
@@ -11,6 +14,9 @@ class ApiPaths {
 
   static String getCoursePath(String id) {
     return '$baseUrl/Course/$id';
+  }
+  static String getCourseListPathByName(String key, int pageNumber, int pageSize) {
+    return '$baseUrl/Course?CourseName=$key&PageNumber=$pageNumber&PageSize=$pageSize';
   }
   static String getCourseListPath(int pageNumber, int pageSize) {
     return '$baseUrl/Course?PageNumber=$pageNumber&PageSize=$pageSize';

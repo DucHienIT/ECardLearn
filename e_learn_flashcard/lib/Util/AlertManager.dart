@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 
 class MyAlertDialog extends StatelessWidget {
+  final String title;
   final String message;
   final VoidCallback? onAction;
 
-  MyAlertDialog({required this.message, this.onAction});
+  MyAlertDialog({required this.title, required this.message, this.onAction});
 
   @override
   Widget build(BuildContext context) {
@@ -12,7 +13,7 @@ class MyAlertDialog extends StatelessWidget {
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(20),
       ),
-      title: Text('Thông báo', style: TextStyle(color: Colors.blueAccent)),
+      title: Text(title, style: TextStyle(color: Colors.blueAccent)),
       content: Text(message, style: TextStyle(fontSize: 18)),
       actions: <Widget>[
         TextButton(

@@ -64,6 +64,7 @@ class _ClassListPageState extends State<ClassListPage> {
                       context: context,
                       builder: (BuildContext context) {
                         return MyAlertDialog(
+                          title: "Thông báo",
                           message: "Xóa khóa học này?",
                           onAction: () {
                             deleteCourse(index);

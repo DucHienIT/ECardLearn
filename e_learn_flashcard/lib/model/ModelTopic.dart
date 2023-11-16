@@ -29,7 +29,17 @@ class Topic {
     );
   }
 
-
+  factory Topic.defaultTopic() {
+    return Topic(
+      topicId: '',
+      topicName: '',
+      topicDescription: '',
+      createdUserId: '',
+      createdDate: DateTime.now(),
+      updatedUserId: '',
+      updatedDate: DateTime.now(),
+    );
+  }
   Map<String, dynamic> toJson() {
     return {
       'topicId': topicId,

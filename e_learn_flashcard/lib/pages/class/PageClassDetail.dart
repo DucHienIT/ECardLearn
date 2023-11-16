@@ -2,12 +2,10 @@ import 'package:flutter/material.dart';
 
 import '../../model/ModelClass.dart';
 import '../../widget/ClassMenuWidget.dart';
-import '../../widget/MainMenuWidget.dart';
-
 class ClassDetailPage extends StatelessWidget {
   final MyClass myClass;
-
   ClassDetailPage({required this.myClass});
+
 
   @override
   Widget build(BuildContext context) {
@@ -36,8 +34,16 @@ class ClassDetailPage extends StatelessWidget {
             Text('Ngày tạo: ${myClass.createdDate.toLocal()}'),
             Text('Người cập nhật: ${myClass.updatedUserId}'),
             Text('Ngày cập nhật: ${myClass.updatedDate.toLocal()}'),
+
           ],
         ),
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () async {
+
+        },
+        child: Icon(Icons.add),
+        backgroundColor: Colors.green,
       ),
     );
   }

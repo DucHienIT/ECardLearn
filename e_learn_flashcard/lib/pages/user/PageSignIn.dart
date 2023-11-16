@@ -1,9 +1,11 @@
+import 'package:e_learn_flashcard/Util/ApiPaths.dart';
 import 'package:e_learn_flashcard/model/ModelGlobalData.dart';
 import 'package:e_learn_flashcard/pages/user/PageChooseRole.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import '../../Util/AlertManager.dart';
 import '../../model/ModelUser.dart';
+import '../LoadingScreen.dart';
 import '../PageMenu.dart';
 import 'PageSignUp.dart';
 import 'dart:convert';
@@ -17,11 +19,15 @@ class _LoginPageState extends State<LoginPage> {
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
 
+  bool _isLoading = false;
+
   Future<void> signIn() async {
-    final String apiUrl = 'http://3.27.242.207/api/Authentication/Login';
+    final String apiUrl = ApiPaths.getLoginPath();
     final String email = emailController.text;
     final String password = passwordController.text;
-
+    setState(() {
+      _isLoading = true; // Kết thúc tác vụ, ẩn màn hình loading
+    }); // Bắt đầu tác vụ, hiển thị màn hình loading
     final response = await http.post(
       Uri.parse(apiUrl),
       headers: {
@@ -35,6 +41,10 @@ class _LoginPageState extends State<LoginPage> {
     );
 
     if (response.statusCode == 200) {
+      setState(() {
+        _isLoading = false; // Kết thúc tác vụ, ẩn màn hình loading
+      });
+
       final user = User.fromJson(json.decode(response.body)["user"] as Map<String, dynamic>);
       user.saveUserData(user);
       GlobalData.LoginUser = user;
@@ -51,7 +61,8 @@ class _LoginPageState extends State<LoginPage> {
           context: context,
           builder: (BuildContext context) {
             return MyAlertDialog(
-              message: "Bạn chưa chọn vai trò, đi nào!",
+              title: "Bạn chưa chọn vai trò!",
+              message: "Tiến hành",
               onAction: () {
                 Navigator.of(context).pushReplacement(MaterialPageRoute(
                   builder: (context) => ChooseRolePage(),
@@ -62,88 +73,105 @@ class _LoginPageState extends State<LoginPage> {
         );
       }
     } else {
-      // Xử lý lỗi, hiển thị thông báo hoặc thực hiện hành động tương ứng.
+      setState(() {
+        _isLoading = false; // Kết thúc tác vụ, ẩn màn hình loading
+      });
+      showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return MyAlertDialog(
+            title: "Sai email hoặc mật khẩu!",
+            message: "Nhập lại",
+            onAction: () {
+
+            },
+          );
+        },
+      );
     }
   }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('Đăng nhập'),
-        backgroundColor: Colors.purple, // Đặt màu nền của thanh tiêu đề
-      ),
-      body: SingleChildScrollView(
-        padding: EdgeInsets.all(16.0),
-        child: Container(
-          decoration: BoxDecoration(
-            color: Colors.white,
-            borderRadius: BorderRadius.circular(10.0),
-            boxShadow: [
-              BoxShadow(
-                color: Colors.purple.withOpacity(0.5),
-                spreadRadius: 3,
-                blurRadius: 5,
-                offset: Offset(0, 3),
-              ),
-            ],
-          ),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: <Widget>[
-              Padding(
-                padding: EdgeInsets.all(20.0),
-                child: Text(
-                  'Đăng nhập',
-                  style: TextStyle(
-                    color: Colors.purple,
-                    fontSize: 32,
-                    fontWeight: FontWeight.bold,
+    return LoadingScreen(
+      isLoading: _isLoading,
+      child: Scaffold(
+        appBar: AppBar(
+          title: Text('Đăng nhập'),
+          backgroundColor: Colors.purple, // Đặt màu nền của thanh tiêu đề
+        ),
+        body: SingleChildScrollView(
+          padding: EdgeInsets.all(16.0),
+          child: Container(
+            decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.circular(10.0),
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.purple.withOpacity(0.5),
+                  spreadRadius: 3,
+                  blurRadius: 5,
+                  offset: Offset(0, 3),
+                ),
+              ],
+            ),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: <Widget>[
+                Padding(
+                  padding: EdgeInsets.all(20.0),
+                  child: Text(
+                    'Đăng nhập',
+                    style: TextStyle(
+                      color: Colors.purple,
+                      fontSize: 32,
+                      fontWeight: FontWeight.bold,
+                    ),
                   ),
                 ),
-              ),
-              SizedBox(height: 20),
-              TextFormField(
-                controller: emailController,
-                decoration: InputDecoration(
-                  labelText: 'Email',
-                  prefixIcon: Icon(Icons.email, color: Colors.purple),
+                SizedBox(height: 20),
+                TextFormField(
+                  controller: emailController,
+                  decoration: InputDecoration(
+                    labelText: 'Email',
+                    prefixIcon: Icon(Icons.email, color: Colors.purple),
+                  ),
                 ),
-              ),
-              SizedBox(height: 20),
-              TextFormField(
-                controller: passwordController,
-                decoration: InputDecoration(
-                  labelText: 'Mật khẩu',
-                  prefixIcon: Icon(Icons.lock, color: Colors.purple),
+                SizedBox(height: 20),
+                TextFormField(
+                  controller: passwordController,
+                  decoration: InputDecoration(
+                    labelText: 'Mật khẩu',
+                    prefixIcon: Icon(Icons.lock, color: Colors.purple),
+                  ),
+                  obscureText: true,
                 ),
-                obscureText: true,
-              ),
-              SizedBox(height: 20),
-              ElevatedButton(
-                onPressed: signIn,
-                child: Text(
-                  'Đăng nhập',
-                  style: TextStyle(color: Colors.white),
+                SizedBox(height: 20),
+                ElevatedButton(
+                  onPressed: signIn,
+                  child: Text(
+                    'Đăng nhập',
+                    style: TextStyle(color: Colors.white),
+                  ),
+                  style: ElevatedButton.styleFrom(
+                    primary: Colors.purple, // Đặt màu nền của nút
+                  ),
                 ),
-                style: ElevatedButton.styleFrom(
-                  primary: Colors.purple, // Đặt màu nền của nút
+                SizedBox(height: 20),
+                TextButton(
+                  onPressed: () {
+                    // Chuyển đến trang đăng ký, thay thế đường dẫn bằng đường dẫn đến trang đăng ký của bạn.
+                    Navigator.of(context).pushReplacement(MaterialPageRoute(
+                      builder: (context) => SignUpPage(),
+                    ));
+                  },
+                  child: Text('Chưa có tài khoản? Đăng ký ngay'),
                 ),
-              ),
-              SizedBox(height: 20),
-              TextButton(
-                onPressed: () {
-                  // Chuyển đến trang đăng ký, thay thế đường dẫn bằng đường dẫn đến trang đăng ký của bạn.
-                  Navigator.of(context).pushReplacement(MaterialPageRoute(
-                    builder: (context) => SignUpPage(),
-                  ));
-                },
-                child: Text('Chưa có tài khoản? Đăng ký ngay'),
-              ),
-            ],
+              ],
+            ),
           ),
         ),
-      ),
+      )
     );
   }
 }

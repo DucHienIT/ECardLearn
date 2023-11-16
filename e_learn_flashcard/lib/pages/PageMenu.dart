@@ -7,6 +7,7 @@ import 'package:e_learn_flashcard/pages/user/PageChooseRole.dart';
 import 'package:flutter/material.dart';
 import '../model/ModelClass.dart';
 import '../widget/MainMenuWidget.dart';
+import '../widget/SearchBarWidget.dart';
 import 'class/PageListClass.dart'; // Import your class list page
 
 class PageMenu extends StatelessWidget {
@@ -17,6 +18,14 @@ class PageMenu extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: Text('Trang chủ'),
+        actions: <Widget>[
+          Builder(
+            builder: (context) => IconButton(
+              icon: Icon(Icons.search),
+              onPressed: () => Scaffold.of(context).openEndDrawer(),
+            ),
+          ),
+        ],
         leading: Builder(
           builder: (BuildContext context) {
             return IconButton(
@@ -29,6 +38,7 @@ class PageMenu extends StatelessWidget {
         ),
       ),
       drawer: MainMenuWidget(),
+      endDrawer: SearchBarApp(),
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,

@@ -81,6 +81,7 @@ class PageProfile extends StatelessWidget {
             onTap: () {
               user?.clearUserData();
               Logout();
+              Navigator.pop(context);
               Navigator.of(context).pushReplacement(MaterialPageRoute(
                 builder: (context) => LoginPage(),
               ));
