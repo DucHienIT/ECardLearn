@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import 'user/PageProfile.dart';
+import '../pages/user/PageProfile.dart';
 
 
 class SearchBar extends StatelessWidget {

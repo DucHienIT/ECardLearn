@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import '../../Util/AlertManager.dart';
 import '../../model/ModelUser.dart';
-import '../LoadingScreen.dart';
+import '../../widget/LoadingScreen.dart';
 import '../PageMenu.dart';
 import 'PageSignUp.dart';
 import 'dart:convert';
@@ -62,7 +62,17 @@ class _LoginPageState extends State<LoginPage> {
           builder: (BuildContext context) {
             return MyAlertDialog(
               title: "Bạn chưa chọn vai trò!",
-              message: "Tiến hành",
+              message:  RichText(
+                text: TextSpan(
+                  style: DefaultTextStyle.of(context).style,
+                  children: <TextSpan>[
+                    TextSpan(
+                      text: 'Tiến hành',
+                      style: TextStyle(fontSize: 18),
+                    ),
+                  ],
+                ),
+              ),
               onAction: () {
                 Navigator.of(context).pushReplacement(MaterialPageRoute(
                   builder: (context) => ChooseRolePage(),
@@ -81,7 +91,17 @@ class _LoginPageState extends State<LoginPage> {
         builder: (BuildContext context) {
           return MyAlertDialog(
             title: "Sai email hoặc mật khẩu!",
-            message: "Nhập lại",
+            message: RichText(
+              text: TextSpan(
+                style: DefaultTextStyle.of(context).style,
+                children: <TextSpan>[
+                  TextSpan(
+                    text: 'Nhập lại!',
+                    style: TextStyle(fontSize: 18),
+                  ),
+                ],
+              ),
+            ),
             onAction: () {
 
             },

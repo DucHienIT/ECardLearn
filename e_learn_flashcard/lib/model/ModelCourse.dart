@@ -46,6 +46,22 @@ class Course {
     );
   }
 
+  factory Course.defaultCourse() {
+    return Course(
+      courseId: '',
+      courseName: '',
+      courseDescription: '',
+      topicId: '',
+      topic: Topic.defaultTopic(), // Sử dụng hàm defaultTopic từ lớp Topic
+      questions: [], // Mảng rỗng nếu không có câu hỏi
+      teacherId: '',
+      createdUserId: '',
+      createdDate: DateTime.now(),
+      updatedUserId: '',
+      updatedDate: DateTime.now(),
+    );
+  }
+
   Map<String, dynamic> toJson() {
     return {
       'courseId': courseId,

@@ -2,12 +2,13 @@ import 'dart:convert';
 
 import 'package:e_learn_flashcard/model/ModelGlobalData.dart';
 import 'package:e_learn_flashcard/pages/course/PageListCourse.dart';
+import 'package:e_learn_flashcard/pages/test/PageListTest.dart';
 import 'package:e_learn_flashcard/pages/topic/PageListTopic.dart';
 import 'package:e_learn_flashcard/pages/user/PageChooseRole.dart';
 import 'package:flutter/material.dart';
 import '../model/ModelClass.dart';
 import '../widget/MainMenuWidget.dart';
-import '../widget/SearchBarWidget.dart';
+import '../widget/SearchCourseBarWidget.dart';
 import 'class/PageListClass.dart'; // Import your class list page
 
 class PageMenu extends StatelessWidget {
@@ -38,7 +39,7 @@ class PageMenu extends StatelessWidget {
         ),
       ),
       drawer: MainMenuWidget(),
-      endDrawer: SearchBarApp(),
+      endDrawer: SearchCourseBarApp(),
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
@@ -79,7 +80,7 @@ class PageMenu extends StatelessWidget {
               onTap: () {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => ChooseRolePage()),
+                  MaterialPageRoute(builder: (context) => TestListPage()),
                 );
               },
             ),

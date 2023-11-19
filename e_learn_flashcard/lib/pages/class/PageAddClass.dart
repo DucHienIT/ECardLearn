@@ -8,7 +8,7 @@ import '../../Util/UtilCallApi.dart';
 import '../../model/ModelGlobalData.dart';
 import 'package:http/http.dart' as http;
 
-import '../LoadingScreen.dart';
+import '../../widget/LoadingScreen.dart';
 
 class AddClassPage extends StatefulWidget {
   @override

@@ -20,6 +20,21 @@ Future<void> FetchDataFromAPI(String apiUrl, Function(List<dynamic>) onAction) a
     print(response.body);
   }
 }
+Future<void> FetchObjectFromAPI(String apiUrl, Function(Object) onAction) async {
+  final response = await http.get(
+    Uri.parse(apiUrl),
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': 'Bearer ${GlobalData.Token}',
+    },
+  );
+
+  if (response.statusCode == 200) {
+    onAction(json.decode(response.body));
+  } else {
+    print(response.body);
+  }
+}
 
 Future<void>  PostDataFromAPI(String apiUrl, Map<String, dynamic> dataBody, VoidCallback onAction) async {
   final response = await http.post(
@@ -35,6 +50,7 @@ Future<void>  PostDataFromAPI(String apiUrl, Map<String, dynamic> dataBody, Void
     print(response.body);
     onAction();
   } else {
+    print(response.statusCode);
     print(response.body);
   }
 }
@@ -49,6 +65,7 @@ Future<void> AddDataFromAPI(String apiUrl, Map<String, dynamic> dataBody, Functi
   );
 
   if (response.statusCode == 201) {
+    print(response.body);
     if (onAction != null) {
       onAction(json.decode(response.body));
     }

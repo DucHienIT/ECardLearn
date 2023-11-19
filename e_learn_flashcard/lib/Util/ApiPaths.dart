@@ -7,6 +7,9 @@ class ApiPaths {
   static String getLogoutPath() {
     return '$baseUrl/Authentication/Logout';
   }
+  static String getChangePasswordPath() {
+    return '$baseUrl/Authentication/ChangePassword';
+  }
   // Định nghĩa đường dẫn cho lấy danh sách khóa học với phân trang
   static String getChooseRolePath() {
     return '$baseUrl/Authentication/RequestRole';
@@ -42,10 +45,28 @@ class ApiPaths {
   static String getClassIdPath(String id) {
     return '$baseUrl/Class/$id';
   }
+  static String getListClassPathByName(String key, int pageNumber, int pageSize) {
+    return '$baseUrl/Class?ClassName=$key&PageNumber=$pageNumber&PageSize=$pageSize';
+  }
+  static String getStudentJoinClassPath() {
+    return '$baseUrl/StudentJoinClass';
+  }
   static String getListClassByIdStudentPath(String id) {
     return '$baseUrl/StudentJoinClass/GetClassByStudentId/$id';
   }
+  static String GetStudentByClassIdPath(String id) {
+    return '$baseUrl/StudentJoinClass/GetStudentByClassId/$id';
+  }
   static String getListClassByIdTeacherPath(String id) {
     return '$baseUrl/Class/GetByTeacherId/$id';
+  }
+  static String getTestPath() {
+    return '$baseUrl/Test';
+  }
+  static String getTestIdPath(String id) {
+    return '$baseUrl/Test/$id';
+  }
+  static String getCourseInClassPath() {
+    return '$baseUrl/CourseInClass';
   }
 }

@@ -32,14 +32,26 @@ class _DetailCoursePageState extends State<DetailCoursePage> {
   void initState() {
     super.initState();
     course = widget.course;
+    fetchDataClass();
     if (course.teacherId == GlobalData.LoginUser!.id) {
       isCourseOwner = true;
     }
-    flashcards = course.questions.map((question) => FlashcardItem(
-      key: question.questionString,
-      meaning: getCorrectAns(question),
-      phonetic: '', // You might want to add a 'phonetic' field to your Question model
-    )).toList();
+  }
+
+  void fetchDataClass() async {
+    final String apiUrl = ApiPaths.getCoursePath(widget.course.courseId);
+    FetchObjectFromAPI(apiUrl, setClassCourse);
+  }
+  void setClassCourse(Object data) {
+    setState(() {
+      course = Course.fromJson(data as Map<String, dynamic>);
+
+      flashcards = course.questions.map((question) => FlashcardItem(
+        key: question.questionString,
+        meaning: getCorrectAns(question),
+        phonetic: '', // You might want to add a 'phonetic' field to your Question model
+      )).toList();
+    });
   }
 
   void addQuestion(Question question) {
@@ -100,12 +112,27 @@ class _DetailCoursePageState extends State<DetailCoursePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Chi tiết khóa học'),
+        title: Text('Bài học: ${course.courseName}'),
       ),
       body: Center(
+
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
+            isCourseOwner ? ElevatedButton(
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => AddQuestionPage(
+                      currentCourse: course,
+                      onQuestionAdded: addQuestion,
+                    ),
+                  ),
+                );
+              },
+              child: Text('Thêm câu hỏi'),
+            ) : SizedBox(),
             Text(
               'Câu hỏi ${flashcards.length == 0 ? 0 : currentQuestionIndex + 1}/${flashcards.length}:',
               style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
@@ -135,23 +162,7 @@ class _DetailCoursePageState extends State<DetailCoursePage> {
           ],
         ),
       ),
-      floatingActionButton: isCourseOwner
-          ? FloatingActionButton(
-        onPressed: () {
-          Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (context) => AddQuestionPage(
-                currentCourse: course,
-                onQuestionAdded: addQuestion,
-              ),
-            ),
-          );
-        },
-        child: Icon(Icons.add),
-        backgroundColor: Colors.green,
-      )
-          : null,
+
     );
   }
 

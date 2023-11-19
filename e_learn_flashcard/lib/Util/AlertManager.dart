@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 
 class MyAlertDialog extends StatelessWidget {
   final String title;
-  final String message;
+  final RichText message;
   final VoidCallback? onAction;
 
-  MyAlertDialog({required this.title, required this.message, this.onAction});
+  MyAlertDialog({required this.title, required this.message, this.onAction,});
 
   @override
   Widget build(BuildContext context) {
@@ -14,7 +14,7 @@ class MyAlertDialog extends StatelessWidget {
         borderRadius: BorderRadius.circular(20),
       ),
       title: Text(title, style: TextStyle(color: Colors.blueAccent)),
-      content: Text(message, style: TextStyle(fontSize: 18)),
+      content: message,
       actions: <Widget>[
         TextButton(
           onPressed: () {

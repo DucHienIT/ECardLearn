@@ -2,22 +2,27 @@ import 'dart:convert';
 import 'package:e_learn_flashcard/Util/ApiPaths.dart';
 import 'package:e_learn_flashcard/Util/UtilCallApi.dart';
 import 'package:e_learn_flashcard/model/ModelCourse.dart';
+import 'package:e_learn_flashcard/model/ModelTest.dart';
+import 'package:e_learn_flashcard/pages/class/PageAddClass.dart';
+import 'package:e_learn_flashcard/pages/class/PageClassDetail.dart';
 import 'package:e_learn_flashcard/pages/course/PageAddCourse.dart';
 import 'package:e_learn_flashcard/pages/course/PageCourseDetail.dart';
+import 'package:e_learn_flashcard/pages/test/PageAddTest.dart';
 import 'package:flutter/material.dart';
 import '../../Util/AlertManager.dart';
+import '../../model/ModelClass.dart';
 import '../../model/ModelGlobalData.dart';
-import '../../model/ModelTopic.dart';
 import 'package:http/http.dart' as http;
 
-class ListCoursePage extends StatefulWidget {
+class TestListPage extends StatefulWidget {
+
   @override
-  _ListCoursePageState createState() => _ListCoursePageState();
+  _TestListPageState createState() => _TestListPageState();
 }
 
-class _ListCoursePageState extends State<ListCoursePage> {
-  List<Course> courses = [];
-  final String apiUrl = ApiPaths.getCourseListByTeacherIdPath(GlobalData.LoginUser!.id);
+class _TestListPageState extends State<TestListPage> {
+  List<Test> tests = [];
+  final String apiUrl = ApiPaths.getTestPath();
 
   @override
   void initState() {
@@ -27,42 +32,41 @@ class _ListCoursePageState extends State<ListCoursePage> {
 
   void setData(List<dynamic> data) {
     setState(() {
-      courses = data.map((item) => Course.fromJson(item)).toList();
+      tests = data.map((item) => Test.fromJson(item)).toList();
     });
   }
 
   void deleteCourse(int courseIndex){
-    final String apiUrlDelete = ApiPaths.getCoursePath(courses[courseIndex].courseId);
+    /*final String apiUrlDelete = ApiPaths.getClassIdPath(tests[courseIndex].classId);
     DeleteDataFromAPI(apiUrlDelete, (){
       Navigator.pop(context);
-    });
+    });*/
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Danh sách bài học'),
+        title: Text('Danh sách lớp học của bạn'),
       ),
       body: Padding(
         padding: const EdgeInsets.all(8.0),
         child: ListView.builder(
-          itemCount: courses.length,
+          itemCount: tests.length,
           itemBuilder: (context, index) {
-            bool isOwner = courses[index].teacherId == GlobalData.LoginUser!.id;
             return Card(
               child: ListTile(
-                leading: Icon(Icons.book),
-                title: Text(courses[index].courseName, style: TextStyle(fontWeight: FontWeight.bold)),
-                subtitle: Text(courses[index].courseDescription),
-                trailing:isOwner ? IconButton(
+                leading: Icon(Icons.edit_document),
+                title: Text(tests[index].testName, style: TextStyle(fontWeight: FontWeight.bold)),
+                subtitle: Text(tests[index].testDescription),
+                trailing: IconButton(
                   icon: Icon(Icons.delete, color: Colors.red),
                   onPressed: () {
                     showDialog(
                       context: context,
                       builder: (BuildContext context) {
                         return MyAlertDialog(
-                          title: "Xác nhận",
+                          title: "Thông báo",
                           message:  RichText(
                             text: TextSpan(
                               style: DefaultTextStyle.of(context).style,
@@ -81,14 +85,9 @@ class _ListCoursePageState extends State<ListCoursePage> {
                       },
                     );
                   },
-                ) : null,
+                ),
                 onTap: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => DetailCoursePage(course: courses[index]),
-                    ),
-                  );
+
                 },
               ),
             );
@@ -101,7 +100,7 @@ class _ListCoursePageState extends State<ListCoursePage> {
           Navigator.push(
             context,
             MaterialPageRoute(
-              builder: (context) => AddCoursePage(),
+              builder: (context) => AddTestPage(),
             ),
           );
         },

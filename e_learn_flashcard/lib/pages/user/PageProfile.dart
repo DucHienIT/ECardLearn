@@ -1,12 +1,13 @@
 import 'package:e_learn_flashcard/Util/ApiPaths.dart';
 import 'package:e_learn_flashcard/Util/UtilCallApi.dart';
 import 'package:e_learn_flashcard/model/ModelUser.dart'; // Import ModelUser
+import 'package:e_learn_flashcard/pages/user/PageChangePassword.dart';
 import 'package:flutter/material.dart';
 
 import '../../model/ModelGlobalData.dart';
 import '../PageMenu.dart';
 import 'PageSignIn.dart';
-import '../ToolBar.dart';
+import '../../widget/ToolBar.dart';
 
 class PageProfile extends StatelessWidget {
   PageProfile({Key? key}) : super(key: key);
@@ -68,10 +69,12 @@ class PageProfile extends StatelessWidget {
           ),
           const Divider(),
           ListTile(
-            leading: const Icon(Icons.settings),
-            title: const Text('Cài đặt'),
+            leading: const Icon(Icons.password),
+            title: const Text('Đổi mật khẩu'),
             onTap: () {
-              // Do something
+              Navigator.of(context).pushReplacement(MaterialPageRoute(
+                builder: (context) => ChangePasswordPage(),
+              ));
             },
           ),
           const Divider(),
