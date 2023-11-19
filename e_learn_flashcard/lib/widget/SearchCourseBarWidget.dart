@@ -6,14 +6,14 @@ import '../Util/UtilCallApi.dart';
 import '../model/ModelGlobalData.dart';
 import '../pages/course/PageCourseDetail.dart';
 
-class SearchBarApp extends StatefulWidget {
-  const SearchBarApp({super.key});
+class SearchCourseBarApp extends StatefulWidget {
+  const SearchCourseBarApp({super.key});
 
   @override
-  State<SearchBarApp> createState() => _SearchBarAppState();
+  State<SearchCourseBarApp> createState() => _SearchCourseBarAppState();
 }
 
-class _SearchBarAppState extends State<SearchBarApp> {
+class _SearchCourseBarAppState extends State<SearchCourseBarApp> {
   bool isDark = false;
   List<Course> courses = [];
   void setData(List<dynamic> data)
