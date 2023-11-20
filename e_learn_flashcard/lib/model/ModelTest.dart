@@ -1,4 +1,5 @@
 class Test {
+  final String testId;
   final String testName;
   final String testDescription;
   final DateTime testStart;
@@ -7,6 +8,7 @@ class Test {
   final String courseId;
 
   Test({
+    required this.testId,
     required this.testName,
     required this.testDescription,
     required this.testStart,
@@ -17,6 +19,7 @@ class Test {
 
   factory Test.fromJson(Map<String, dynamic> json) {
     return Test(
+      testId: json['testId'] as String,
       testName: json['testName'] as String,
       testDescription: json['testDescription'] as String,
       testStart: DateTime.parse(json['testStart'] as String),

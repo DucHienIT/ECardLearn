@@ -9,6 +9,7 @@ import 'package:e_learn_flashcard/pages/course/PageCourseDetail.dart';
 import 'package:e_learn_flashcard/widget/SearchClassBarWidget.dart';
 import 'package:flutter/material.dart';
 import '../../Util/AlertManager.dart';
+import '../../Util/Define.dart';
 import '../../model/ModelClass.dart';
 import '../../model/ModelGlobalData.dart';
 import 'package:http/http.dart' as http;
@@ -25,11 +26,14 @@ class _ClassListPageState extends State<ClassListPage> {
   List<MyClass> classes = [];
   final String apiUrl = ApiPaths.getListClassByIdTeacherPath(GlobalData.LoginUser!.id);
   final String apiUrlClassJoin = ApiPaths.getListClassByIdStudentPath(GlobalData.LoginUser!.id);
+  bool _isTeacher = GlobalData.LoginUser!.roles.contains(RoleUser.Teacher.toString().split('.')[1]);
 
   @override
   void initState() {
     super.initState();
-    FetchDataFromAPI(apiUrl, setData);
+    if (_isTeacher){
+      FetchDataFromAPI(apiUrl, setData);
+    }
     FetchDataFromAPI(apiUrlClassJoin, setData);
   }
 

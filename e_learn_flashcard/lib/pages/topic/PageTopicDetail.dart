@@ -30,7 +30,7 @@ class _TopicDetailPageState extends State<TopicDetailPage> {
   }
 
   void deleteCourse(int courseIndex){
-    final String apiUrlDelete = ApiPaths.getCoursePath(courses[courseIndex].courseId);
+    final String apiUrlDelete = ApiPaths.getCourseIdPath(courses[courseIndex].courseId);
     DeleteDataFromAPI(apiUrlDelete, (){
       Navigator.pop(context);
     });

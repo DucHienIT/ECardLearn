@@ -15,7 +15,10 @@ class ApiPaths {
     return '$baseUrl/Authentication/RequestRole';
   }
 
-  static String getCoursePath(String id) {
+  static String getCoursePath() {
+    return '$baseUrl/Course';
+  }
+  static String getCourseIdPath(String id) {
     return '$baseUrl/Course/$id';
   }
   static String getCourseListPathByName(String key, int pageNumber, int pageSize) {
@@ -63,10 +66,20 @@ class ApiPaths {
   static String getTestPath() {
     return '$baseUrl/Test';
   }
+  static String getTestBySizePath(int pageNumber, int pageSize) {
+    return '$baseUrl/Test?PageNumber=$pageNumber&PageSize=$pageSize';
+  }
   static String getTestIdPath(String id) {
     return '$baseUrl/Test/$id';
   }
+  static String getTestByUserIdPath(String id) {
+    return '$baseUrl/Test/GetTestsByCreatedUserId/$id';
+  }
   static String getCourseInClassPath() {
     return '$baseUrl/CourseInClass';
+  }
+
+  static String getStudentJoinTestPath() {
+    return '$baseUrl/StudentJoinTest';
   }
 }

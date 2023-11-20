@@ -52,7 +52,7 @@ class _AddCoursePageState extends State<AddCoursePage> {
   }
 
   Future<void> sendAddCourseRequest() async {
-    final String apiUrl = 'http://3.27.242.207/api/Course';
+    final String apiUrl = ApiPaths.getCoursePath();
 
     try {
       final response = await http.post(

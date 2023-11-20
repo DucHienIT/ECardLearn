@@ -39,7 +39,7 @@ class _DetailCoursePageState extends State<DetailCoursePage> {
   }
 
   void fetchDataClass() async {
-    final String apiUrl = ApiPaths.getCoursePath(widget.course.courseId);
+    final String apiUrl = ApiPaths.getCourseIdPath(widget.course.courseId);
     FetchObjectFromAPI(apiUrl, setClassCourse);
   }
   void setClassCourse(Object data) {

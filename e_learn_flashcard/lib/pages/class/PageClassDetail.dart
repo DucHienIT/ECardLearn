@@ -7,6 +7,7 @@ import '../../Util/ApiPaths.dart';
 import '../../Util/UtilCallApi.dart';
 import '../../model/ModelClass.dart';
 import '../../model/ModelCourse.dart';
+import '../../model/ModelTest.dart';
 import '../../model/ModelUser.dart';
 import '../../widget/ClassMenuWidget.dart';
 import '../course/PageCourseDetail.dart';
@@ -23,6 +24,7 @@ class ClassDetailPage extends StatefulWidget {
 class _ClassDetailPageState extends State<ClassDetailPage> {
   List<Course> lstCourses = [];
   List<User> lstStudent = [];
+  List<Test> lstTest = [];
   late MyClass thisClass = new MyClass.defaultClass();
   bool _isLoading = false;
 
@@ -32,6 +34,7 @@ class _ClassDetailPageState extends State<ClassDetailPage> {
     fetchDataClass();
     fetchDataCourse();
     fetchDataStudent();
+    fetchDataTest();
     print(widget.myClass.classId);
   }
 
@@ -49,7 +52,10 @@ class _ClassDetailPageState extends State<ClassDetailPage> {
     final String apiUrl = ApiPaths.GetStudentByClassIdPath(widget.myClass.classId);
     FetchDataFromAPI(apiUrl, setListStudentData);
   }
-
+  void fetchDataTest() async{
+    final String apiUrl = ApiPaths.getTestByUserIdPath(GlobalData.LoginUser!.id);
+    FetchDataFromAPI(apiUrl, setListTestData);
+  }
 
   void setClassData(Object data) {
     setState(() {
@@ -68,7 +74,11 @@ class _ClassDetailPageState extends State<ClassDetailPage> {
       lstStudent = data.map((item) => User.fromJson(item)).toList();
     });
   }
-
+  void setListTestData(List<dynamic> data) {
+    setState(() {
+      lstTest = data.map((item) => Test.fromJson(item)).toList();
+    });
+  }
 
   void addCourseIntoClass(String courseId){
     _isLoading = true;
@@ -102,7 +112,7 @@ class _ClassDetailPageState extends State<ClassDetailPage> {
               ),
             ],
           ),
-          endDrawer: ClassMenuWidget(studentList: lstStudent),
+          endDrawer: ClassMenuWidget(studentList: lstStudent, lstTest: lstTest),
           body: Padding(
             padding: EdgeInsets.all(16.0),
             child: Column(

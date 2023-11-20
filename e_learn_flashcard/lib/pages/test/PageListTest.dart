@@ -14,6 +14,8 @@ import '../../model/ModelClass.dart';
 import '../../model/ModelGlobalData.dart';
 import 'package:http/http.dart' as http;
 
+import 'PageTestDetail.dart';
+
 class TestListPage extends StatefulWidget {
 
   @override
@@ -22,7 +24,7 @@ class TestListPage extends StatefulWidget {
 
 class _TestListPageState extends State<TestListPage> {
   List<Test> tests = [];
-  final String apiUrl = ApiPaths.getTestPath();
+  final String apiUrl = ApiPaths.getTestBySizePath(1, 100);
 
   @override
   void initState() {
@@ -47,7 +49,7 @@ class _TestListPageState extends State<TestListPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Danh sách lớp học của bạn'),
+        title: Text('Danh sách bài kiểm tra của bạn'),
       ),
       body: Padding(
         padding: const EdgeInsets.all(8.0),
@@ -87,7 +89,12 @@ class _TestListPageState extends State<TestListPage> {
                   },
                 ),
                 onTap: () {
-
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => DetailTestPage(test: tests[index]),
+                    ),
+                  );
                 },
               ),
             );
