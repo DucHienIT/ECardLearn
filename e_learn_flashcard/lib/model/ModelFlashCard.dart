@@ -8,4 +8,12 @@ class FlashcardItem {
     required this.meaning,
     required this.phonetic,
   });
+
+  factory FlashcardItem.fromJson(Map<String, dynamic> json) {
+    return FlashcardItem(
+      key: json['key'] ?? '',
+      meaning: json['meaning'] ?? '',
+      phonetic: json['phonetic'] ?? '',
+    );
+  }
 }

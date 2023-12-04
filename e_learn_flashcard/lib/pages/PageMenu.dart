@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:e_learn_flashcard/Util/UtilCommon.dart';
 import 'package:e_learn_flashcard/model/ModelGlobalData.dart';
 import 'package:e_learn_flashcard/pages/course/PageListCourse.dart';
+import 'package:e_learn_flashcard/pages/question/PageGenerateQuestion.dart';
 import 'package:e_learn_flashcard/pages/test/PageListTest.dart';
 import 'package:e_learn_flashcard/pages/topic/PageListTopic.dart';
 import 'package:e_learn_flashcard/pages/user/PageChooseRole.dart';
@@ -88,11 +89,11 @@ class PageMenu extends StatelessWidget {
             SizedBox(height: 20), // Add spacing
             MainMenuCard(
               permis: UtilCommon.IsTeacher(),
-              title: 'Quản lí người dùng', // Menu category 2
+              title: 'Tạo bài học với trợ lý ảo', // Menu category 2
               onTap: () {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => TestListPage()),
+                  MaterialPageRoute(builder: (context) => FlashCardGenerate()),
                 );
               },
             ),
