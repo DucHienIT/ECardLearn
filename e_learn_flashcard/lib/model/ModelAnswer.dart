@@ -1,4 +1,5 @@
 class Answer {
+  final String answerId;
   final String answerString;
   final String questionId;
   final bool isCorrect;
@@ -8,6 +9,7 @@ class Answer {
   final DateTime updatedDate;
 
   Answer({
+    required this.answerId,
     required this.answerString,
     required this.questionId,
     required this.isCorrect,
@@ -19,6 +21,7 @@ class Answer {
 
   factory Answer.fromJson(Map<String, dynamic> json) {
     return Answer(
+      answerId: json['answerId'],
       answerString: json['answerString'],
       questionId: json['questionId'],
       isCorrect: json['isCorrect'],

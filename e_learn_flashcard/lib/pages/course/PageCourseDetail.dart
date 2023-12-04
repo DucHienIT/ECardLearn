@@ -1,6 +1,7 @@
 import 'package:e_learn_flashcard/Util/ApiPaths.dart';
 import 'package:e_learn_flashcard/model/ModelGlobalData.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 
 import '../../Util/AlertManager.dart';
 import '../../Util/UtilCallApi.dart';
@@ -8,6 +9,7 @@ import '../../model/ModelAnswer.dart';
 import '../../model/ModelCourse.dart';
 import '../../model/ModelFlashCard.dart';
 import '../../model/ModelQuestion.dart';
+import '../../model/ModelReview.dart';
 import '../question/PageAddQuestion.dart';
 import 'package:flash_card/flash_card.dart';
 
@@ -22,11 +24,13 @@ class DetailCoursePage extends StatefulWidget {
 
 class _DetailCoursePageState extends State<DetailCoursePage> {
   late Course course;
+  List<Review> feedbacks = [];
   List<FlashcardItem> flashcards = [];
   int currentQuestionIndex = 0;
 
   bool isCourseOwner = false;
-
+  final _descriptionController = TextEditingController();
+  double _rating = 0.0;
 
   @override
   void initState() {
@@ -36,11 +40,16 @@ class _DetailCoursePageState extends State<DetailCoursePage> {
     if (course.teacherId == GlobalData.LoginUser!.id) {
       isCourseOwner = true;
     }
+    fetchDataFeedback();
   }
 
   void fetchDataClass() async {
     final String apiUrl = ApiPaths.getCourseIdPath(widget.course.courseId);
     FetchObjectFromAPI(apiUrl, setClassCourse);
+  }
+  void fetchDataFeedback() async {
+    final String apiUrl = ApiPaths.getFeedbackByCourseIdPath(widget.course.courseId);
+    FetchDataFromAPI(apiUrl, setFeedbackCourse);
   }
   void setClassCourse(Object data) {
     setState(() {
@@ -53,7 +62,11 @@ class _DetailCoursePageState extends State<DetailCoursePage> {
       )).toList();
     });
   }
-
+  void setFeedbackCourse(List<dynamic> data) {
+    setState(() {
+      feedbacks.addAll(data.map((item) => Review.fromJson(item)).toList());
+    });
+  }
   void addQuestion(Question question) {
     setState(() {
       String apiUrl = ApiPaths.getQuestionIdPath(question.questionId);
@@ -106,65 +119,136 @@ class _DetailCoursePageState extends State<DetailCoursePage> {
     }
     return '';
   }
+  void addReview(){
+    Review newReview = Review(
+        title: GlobalData.LoginUser!.name,
+        description: _descriptionController.text,
+        rating: _rating.toInt(),
+        userId: GlobalData.LoginUser!.id,
+        courseId: course.courseId);
 
-
+    String apiAddFeedbackUrl = ApiPaths.getFeedbackPath();
+    AddDataFromAPI(apiAddFeedbackUrl, newReview.toJson(), setTestData);
+  }
+  void setTestData(Map<String, dynamic> data) {
+    Navigator.pop(context);
+  }
   @override
   Widget build(BuildContext context) {
+
     return Scaffold(
       appBar: AppBar(
         title: Text('Bài học: ${course.courseName}'),
       ),
-      body: Center(
-
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            isCourseOwner ? ElevatedButton(
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => AddQuestionPage(
-                      currentCourse: course,
-                      onQuestionAdded: addQuestion,
+      body: SingleChildScrollView(
+        physics: BouncingScrollPhysics(),
+        child: Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              SizedBox(height: 20),
+              isCourseOwner ? ElevatedButton(
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => AddQuestionPage(
+                        currentCourse: course,
+                        onQuestionAdded: addQuestion,
+                      ),
                     ),
+                  );
+                },
+                child: Text('Thêm câu hỏi'),
+              ) : SizedBox(),
+              Text(
+                'Câu hỏi ${flashcards.length == 0 ? 0 : currentQuestionIndex + 1}/${flashcards.length}:',
+                style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+              ),
+              SizedBox(height: 20),
+              if (flashcards.isNotEmpty)
+                buildFlashcardItem(flashcards[currentQuestionIndex]),
+              SizedBox(height: 20),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: [
+                  IconButton(
+                    icon: Icon(Icons.arrow_back),
+                    onPressed: previousQuestion,
                   ),
-                );
-              },
-              child: Text('Thêm câu hỏi'),
-            ) : SizedBox(),
-            Text(
-              'Câu hỏi ${flashcards.length == 0 ? 0 : currentQuestionIndex + 1}/${flashcards.length}:',
-              style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-            ),
-            SizedBox(height: 20),
-            if (flashcards.isNotEmpty)
-              buildFlashcardItem(flashcards[currentQuestionIndex]),
-            SizedBox(height: 20),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              children: [
-                IconButton(
-                  icon: Icon(Icons.arrow_back),
-                  onPressed: previousQuestion,
-                ),
-                if (isCourseOwner) IconButton(
-                  icon: Icon(Icons.delete),
-                  onPressed: deleteFlashCardItem ,
-                ),
-                IconButton(
-                  icon: Icon(Icons.arrow_forward),
-                  onPressed: nextQuestion,
-                ),
+                  if (isCourseOwner) IconButton(
+                    icon: Icon(Icons.delete),
+                    onPressed: deleteFlashCardItem ,
+                  ),
+                  IconButton(
+                    icon: Icon(Icons.arrow_forward),
+                    onPressed: nextQuestion,
+                  ),
+                ],
+              ),
+              SizedBox(height: 20),
+              Container(
+                margin: EdgeInsets.all(10),
+                padding: EdgeInsets.all(10),
 
-              ],
-            ),
-          ],
+                child: Column(
+                  children: [
+                    SizedBox(height: 10),
+                    TextField(
+                      controller: _descriptionController,
+                      decoration: InputDecoration(
+                        hintText: 'Bình luận',
+                        filled: true,
+                        fillColor: Colors.white,
+                        border: OutlineInputBorder(),
+                      ),
+                    ),
+                    SizedBox(height: 10),
+                    RatingBar.builder(
+                      initialRating: 0,
+                      minRating: 1,
+                      direction: Axis.horizontal,
+                      allowHalfRating: true,
+                      itemCount: 5,
+                      itemPadding: EdgeInsets.symmetric(horizontal: 4.0),
+                      itemBuilder: (context, _) => Icon(
+                        Icons.star,
+                        color: Colors.amber,
+                      ),
+                      onRatingUpdate: (rating) {
+                        setState(() {
+                          _rating = rating;
+                        });
+                      },
+                    ),
+                    SizedBox(height: 10),
+                    ElevatedButton(
+                      onPressed: addReview,
+                      child: Text('Thêm đánh giá'),
+                    ),
+                  ],
+                ),
+              ),
+              ListView.builder(
+                physics: NeverScrollableScrollPhysics(),
+                shrinkWrap: true,
+                itemCount: feedbacks.length,
+                itemBuilder: (context, index) {
+                  return ListTile(
+                    title: Text(feedbacks[index].title),
+                    subtitle: Text(feedbacks[index].description),
+                    trailing: Text('Rating: ${feedbacks[index].rating}'),
+                  );
+                },
+              ),
+
+            ],
+          ),
         ),
       ),
-
     );
   }
+
 
 
 

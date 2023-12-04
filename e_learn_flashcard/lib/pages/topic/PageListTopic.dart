@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'package:e_learn_flashcard/Util/Define.dart';
+import 'package:e_learn_flashcard/Util/UtilCommon.dart';
 import 'package:flutter/material.dart';
 import '../../Util/UtilCallApi.dart';
 import '../../model/ModelGlobalData.dart';
@@ -22,7 +23,6 @@ class _ListTopicPageState extends State<ListTopicPage> {
     super.initState();
     final String apiUrl = ApiPaths.getTopicListPath(1, 100);
     FetchDataFromAPI(apiUrl, setData);
-    print(RoleUser.Teacher.toString().split('.')[1]);
   }
 
   void setData(List<dynamic> data)
@@ -35,7 +35,7 @@ class _ListTopicPageState extends State<ListTopicPage> {
 
   @override
   Widget build(BuildContext context) {
-    bool canAdd = GlobalData.LoginUser!.roles.contains(RoleUser.Administrator.toString().split('.')[1]);
+    bool canAdd = UtilCommon.IsAdmin();
     return Scaffold(
       appBar: AppBar(
         title: Text('Danh sách chủ đề'),

@@ -112,7 +112,8 @@ class _ClassDetailPageState extends State<ClassDetailPage> {
               ),
             ],
           ),
-          endDrawer: ClassMenuWidget(studentList: lstStudent, lstTest: lstTest),
+          endDrawer: ClassMenuWidget(isOwner: GlobalData.LoginUser!.id == thisClass.teacherId ,
+              studentList: lstStudent, lstTest: lstTest),
           body: Padding(
             padding: EdgeInsets.all(16.0),
             child: Column(

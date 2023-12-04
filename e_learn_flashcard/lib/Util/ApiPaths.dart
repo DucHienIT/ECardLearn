@@ -75,11 +75,25 @@ class ApiPaths {
   static String getTestByUserIdPath(String id) {
     return '$baseUrl/Test/GetTestsByCreatedUserId/$id';
   }
+  static String getTestByStudentIdPath(String id) {
+    return '$baseUrl/StudentJoinTest/GetTestByStudentId/$id';
+  }
   static String getCourseInClassPath() {
     return '$baseUrl/CourseInClass';
   }
 
   static String getStudentJoinTestPath() {
     return '$baseUrl/StudentJoinTest';
+  }
+  static String getTestAnswerPath() {
+    return '$baseUrl/TestAnswer';
+  }
+  static String getFeedbackPath()
+  {
+    return '$baseUrl/Feedback';
+  }
+  static String getFeedbackByCourseIdPath(String id)
+  {
+    return '$baseUrl/Feedback/GetByCourseId/$id';
   }
 }

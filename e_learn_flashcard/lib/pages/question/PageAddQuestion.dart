@@ -118,6 +118,7 @@ class _AddQuestionPageState extends State<AddQuestionPage> {
                 List<Answer> answers = _answerControllers.map((controller) {
                   int index = _answerControllers.indexOf(controller);
                   return Answer(
+                    answerId: '',
                     answerString: controller.text,
                     questionId: currentQuestion.questionId,
                     isCorrect: _isCorrect[index],

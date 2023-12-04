@@ -4,8 +4,6 @@ import 'package:e_learn_flashcard/Util/UtilCallApi.dart';
 import 'package:e_learn_flashcard/model/ModelCourse.dart';
 import 'package:e_learn_flashcard/pages/class/PageAddClass.dart';
 import 'package:e_learn_flashcard/pages/class/PageClassDetail.dart';
-import 'package:e_learn_flashcard/pages/course/PageAddCourse.dart';
-import 'package:e_learn_flashcard/pages/course/PageCourseDetail.dart';
 import 'package:e_learn_flashcard/widget/SearchClassBarWidget.dart';
 import 'package:flutter/material.dart';
 import '../../Util/AlertManager.dart';
@@ -13,8 +11,7 @@ import '../../Util/Define.dart';
 import '../../model/ModelClass.dart';
 import '../../model/ModelGlobalData.dart';
 import 'package:http/http.dart' as http;
-
-import '../../widget/SearchCourseBarWidget.dart';
+import '../../Util/UtilCommon.dart';
 
 class ClassListPage extends StatefulWidget {
 
@@ -26,7 +23,7 @@ class _ClassListPageState extends State<ClassListPage> {
   List<MyClass> classes = [];
   final String apiUrl = ApiPaths.getListClassByIdTeacherPath(GlobalData.LoginUser!.id);
   final String apiUrlClassJoin = ApiPaths.getListClassByIdStudentPath(GlobalData.LoginUser!.id);
-  bool _isTeacher = GlobalData.LoginUser!.roles.contains(RoleUser.Teacher.toString().split('.')[1]);
+  bool _isTeacher = UtilCommon.IsTeacher();
 
   @override
   void initState() {

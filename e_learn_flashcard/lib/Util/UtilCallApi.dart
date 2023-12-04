@@ -17,7 +17,7 @@ Future<void> FetchDataFromAPI(String apiUrl, Function(List<dynamic>) onAction) a
   if (response.statusCode == 200) {
     onAction(json.decode(response.body));
   } else {
-    print(response.body);
+    print(response.statusCode);
   }
 }
 Future<void> FetchObjectFromAPI(String apiUrl, Function(Object) onAction) async {

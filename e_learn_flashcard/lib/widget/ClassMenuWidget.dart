@@ -1,5 +1,6 @@
 import 'package:e_learn_flashcard/Util/ApiPaths.dart';
 import 'package:e_learn_flashcard/Util/UtilCallApi.dart';
+import 'package:e_learn_flashcard/model/ModelClass.dart';
 import 'package:e_learn_flashcard/model/ModelUser.dart';
 import 'package:flutter/material.dart';
 
@@ -9,13 +10,14 @@ import '../model/ModelGlobalData.dart';
 import '../model/ModelTest.dart';
 
 class ClassMenuWidget extends StatelessWidget {
+  final bool isOwner;
   final List<User> studentList;
-
   final List<Test> lstTest;
-  bool canAddTest = true;
 
-  ClassMenuWidget({required this.studentList, required this.lstTest});
+  ClassMenuWidget({required this.isOwner ,required this.studentList, required this.lstTest});
   String UrlApi = ApiPaths.getStudentJoinTestPath();
+
+
 
   void JoinListStudentToTest(String testId)
   {
@@ -67,7 +69,7 @@ class ClassMenuWidget extends StatelessWidget {
               );
             }).toList(),
           ),
-          canAddTest ? ElevatedButton(
+          isOwner ? ElevatedButton(
             onPressed: () {
               showModalBottomSheet(
                 context: context,

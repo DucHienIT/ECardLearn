@@ -64,7 +64,7 @@ class _DetailTestPageState extends State<DetailTestPage> {
                       Navigator.pushReplacement(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => DoTestPage(courseId: widget.test.courseId),
+                          builder: (context) => DoTestPage(courseId: widget.test.courseId, test: widget.test),
                         ),
                       );
                     },

@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:e_learn_flashcard/Util/UtilCommon.dart';
 import 'package:e_learn_flashcard/model/ModelGlobalData.dart';
 import 'package:e_learn_flashcard/pages/course/PageListCourse.dart';
 import 'package:e_learn_flashcard/pages/test/PageListTest.dart';
@@ -76,7 +77,18 @@ class PageMenu extends StatelessWidget {
             ),
             SizedBox(height: 20), // Add spacing
             MainMenuCard(
-              title: 'Test', // Menu category 2
+              title: 'Danh sách bài kiểm tra', // Menu category 2
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => TestListPage()),
+                );
+              },
+            ),
+            SizedBox(height: 20), // Add spacing
+            MainMenuCard(
+              permis: UtilCommon.IsTeacher(),
+              title: 'Quản lí người dùng', // Menu category 2
               onTap: () {
                 Navigator.push(
                   context,
@@ -92,14 +104,15 @@ class PageMenu extends StatelessWidget {
 }
 
 class MainMenuCard extends StatelessWidget {
+  final bool? permis;
   final String title;
   final VoidCallback onTap;
 
-  MainMenuCard({required this.title, required this.onTap});
+  MainMenuCard({this.permis, required this.title, required this.onTap});
 
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return (permis ?? true) ? Container(
       margin: EdgeInsets.symmetric(horizontal: 20), // Thêm lề ngang
       decoration: BoxDecoration(
         border: Border.all(color: Colors.grey), // Thêm khung
@@ -114,6 +127,6 @@ class MainMenuCard extends StatelessWidget {
           onTap: onTap,
         ),
       ),
-    );
+    ) : Container();
   }
 }
