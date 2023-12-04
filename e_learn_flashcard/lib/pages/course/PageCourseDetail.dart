@@ -131,7 +131,12 @@ class _DetailCoursePageState extends State<DetailCoursePage> {
     AddDataFromAPI(apiAddFeedbackUrl, newReview.toJson(), setTestData);
   }
   void setTestData(Map<String, dynamic> data) {
-    Navigator.pop(context);
+    Navigator.pushReplacement(
+      context,
+      MaterialPageRoute(
+        builder: (context) => DetailCoursePage(course: course),
+      ),
+    );
   }
   @override
   Widget build(BuildContext context) {
