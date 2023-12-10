@@ -4,6 +4,8 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:dart_openai/dart_openai.dart';
 
+import '../../Util/ApiPaths.dart';
+import '../../Util/Define.dart';
 import '../../model/ModelFlashCard.dart';
 import 'PageListQuestGenerate.dart';
 
@@ -17,8 +19,8 @@ class _FlashCardGenerate extends State<FlashCardGenerate> {
   final _numberQuestionController = TextEditingController();
   bool _isLoading = false;
   Future<List<FlashcardItem>> _generateChatResponse(_userInputController) async {
-    final String apiKey = "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";
-    final String apiUrl = "https://api.openai.com/v1/chat/completions";
+    final String apiKey = Define.openAPIKey;
+    final String apiUrl = ApiPaths.openApiUrl;
 
     setState(() {
       _isLoading = true;

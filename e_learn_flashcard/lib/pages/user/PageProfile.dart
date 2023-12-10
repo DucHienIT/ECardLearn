@@ -1,13 +1,13 @@
 import 'package:e_learn_flashcard/Util/ApiPaths.dart';
 import 'package:e_learn_flashcard/Util/UtilCallApi.dart';
-import 'package:e_learn_flashcard/model/ModelUser.dart'; // Import ModelUser
+import 'package:e_learn_flashcard/Util/UtilCommon.dart';
+import 'package:e_learn_flashcard/pages/class/PageListClass.dart';
+import 'package:e_learn_flashcard/pages/course/PageListCourse.dart';
 import 'package:e_learn_flashcard/pages/user/PageChangePassword.dart';
 import 'package:flutter/material.dart';
 
 import '../../model/ModelGlobalData.dart';
-import '../PageMenu.dart';
 import 'PageSignIn.dart';
-import '../../widget/ToolBar.dart';
 
 class PageProfile extends StatelessWidget {
   PageProfile({Key? key}) : super(key: key);
@@ -32,8 +32,13 @@ class PageProfile extends StatelessWidget {
         children: [
           const SizedBox(height: 20),
           CircleAvatar(
-            radius: 100,
-            backgroundImage: NetworkImage(user!.avatarUri), // Sử dụng avatarUri từ dữ liệu User
+            radius: 50,
+            backgroundColor: Colors.blue,
+            child: Text(UtilCommon.getInitials(GlobalData.LoginUser!.name),
+              style: TextStyle(
+                fontSize: 24.0,  // Đặt kích thước font của bạn ở đây
+              ),
+            ),
           ),
           const SizedBox(height: 20),
           Text(
@@ -53,18 +58,24 @@ class PageProfile extends StatelessWidget {
           const SizedBox(height: 20),
           const Divider(),
           ListTile(
-            leading: const Icon(Icons.book),
+            leading: const Icon(Icons.class_sharp),
             title: const Text('Danh sách lớp học'),
             onTap: () {
-              // Do something
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => ClassListPage()),
+              );
             },
           ),
           const Divider(),
           ListTile(
-            leading: const Icon(Icons.favorite),
-            title: const Text('Bài học yêu thích'),
+            leading: const Icon(Icons.book),
+            title: const Text('Danh sách bài học'),
             onTap: () {
-              // Do something
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => ListCoursePage()),
+              );
             },
           ),
           const Divider(),

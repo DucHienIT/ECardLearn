@@ -118,7 +118,7 @@ class _LoginPageState extends State<LoginPage> {
       child: Scaffold(
         appBar: AppBar(
           title: Text('Đăng nhập'),
-          backgroundColor: Colors.purple, // Đặt màu nền của thanh tiêu đề
+          backgroundColor: Colors.blue, // Đặt màu nền của thanh tiêu đề
         ),
         body: SingleChildScrollView(
           padding: EdgeInsets.all(16.0),
@@ -143,7 +143,7 @@ class _LoginPageState extends State<LoginPage> {
                   child: Text(
                     'Đăng nhập',
                     style: TextStyle(
-                      color: Colors.purple,
+                      color: Colors.blue,
                       fontSize: 32,
                       fontWeight: FontWeight.bold,
                     ),
@@ -154,7 +154,7 @@ class _LoginPageState extends State<LoginPage> {
                   controller: emailController,
                   decoration: InputDecoration(
                     labelText: 'Email',
-                    prefixIcon: Icon(Icons.email, color: Colors.purple),
+                    prefixIcon: Icon(Icons.email, color: Colors.blue),
                   ),
                 ),
                 SizedBox(height: 20),
@@ -162,7 +162,7 @@ class _LoginPageState extends State<LoginPage> {
                   controller: passwordController,
                   decoration: InputDecoration(
                     labelText: 'Mật khẩu',
-                    prefixIcon: Icon(Icons.lock, color: Colors.purple),
+                    prefixIcon: Icon(Icons.lock, color: Colors.blue),
                   ),
                   obscureText: true,
                 ),
@@ -174,7 +174,7 @@ class _LoginPageState extends State<LoginPage> {
                     style: TextStyle(color: Colors.white),
                   ),
                   style: ElevatedButton.styleFrom(
-                    primary: Colors.purple, // Đặt màu nền của nút
+                    primary: Colors.blue, // Đặt màu nền của nút
                   ),
                 ),
                 SizedBox(height: 20),

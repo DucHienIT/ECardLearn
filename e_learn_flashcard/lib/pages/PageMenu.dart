@@ -1,20 +1,38 @@
-import 'dart:convert';
-
+import 'package:flutter/material.dart';
 import 'package:e_learn_flashcard/Util/UtilCommon.dart';
 import 'package:e_learn_flashcard/model/ModelGlobalData.dart';
-import 'package:e_learn_flashcard/pages/course/PageListCourse.dart';
 import 'package:e_learn_flashcard/pages/question/PageGenerateQuestion.dart';
-import 'package:e_learn_flashcard/pages/test/PageListTest.dart';
 import 'package:e_learn_flashcard/pages/topic/PageListTopic.dart';
-import 'package:e_learn_flashcard/pages/user/PageChooseRole.dart';
-import 'package:flutter/material.dart';
-import '../model/ModelClass.dart';
-import '../widget/MainMenuWidget.dart';
-import '../widget/SearchCourseBarWidget.dart';
-import 'class/PageListClass.dart'; // Import your class list page
+import 'package:e_learn_flashcard/Util/ApiPaths.dart';
+import 'package:e_learn_flashcard/Util/UtilCallApi.dart';
+import 'package:e_learn_flashcard/widget/MainMenuWidget.dart';
+import 'package:e_learn_flashcard/widget/SearchCourseBarWidget.dart';
+import 'Achievement/PageAchievement.dart';
+import 'Admin/PageUserManagement.dart';
+import '../model/ModelAchievement.dart';
 
-class PageMenu extends StatelessWidget {
+class PageMenu extends StatefulWidget {
+  @override
+  _PageMenuState createState() => _PageMenuState();
+}
+
+class _PageMenuState extends State<PageMenu> {
   final TextEditingController keywordController = TextEditingController();
+
+  @override
+  void initState() {
+    super.initState();
+    loadListAchievement();
+  }
+
+  Future<void> loadListAchievement() async {
+    final String apiUrl = ApiPaths.getListAchivementPath(1, 100);
+    FetchDataFromAPI(apiUrl, setListTestData);
+  }
+
+  void setListTestData(List<dynamic> data) {
+    GlobalData.ListAchivement = data.map((item) => Achievement.fromJson(item)).toList();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -22,6 +40,16 @@ class PageMenu extends StatelessWidget {
       appBar: AppBar(
         title: Text('Trang chủ'),
         actions: <Widget>[
+          Builder(
+            builder: (context) => IconButton(
+              icon: Icon(Icons.account_balance_wallet),
+              onPressed: () => {
+                if(GlobalData.ListAchivement != null)
+                  Navigator.push(context, MaterialPageRoute(builder: (context) => AchievementPage())
+                )
+              },
+            ),
+          ),
           Builder(
             builder: (context) => IconButton(
               icon: Icon(Icons.search),
@@ -48,17 +76,17 @@ class PageMenu extends StatelessWidget {
           children: <Widget>[
             SizedBox(height: 20), // Add spacing
             MainMenuCard(
-              title: 'Quản lý lớp', // Menu category 1
+              title: 'Tạo bài học với trợ lý ảo', // Menu category 2
               onTap: () {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => ClassListPage()),
+                  MaterialPageRoute(builder: (context) => FlashCardGenerate()),
                 );
               },
             ),
             SizedBox(height: 20), // Add spacing
             MainMenuCard(
-              title: 'Danh sách chủ đề', // Menu category 2
+              title: 'Tìm bài học theo chủ đề', // Menu category 2
               onTap: () {
                 Navigator.push(
                   context,
@@ -66,34 +94,14 @@ class PageMenu extends StatelessWidget {
                 );
               },
             ),
-            SizedBox(height: 20), // Add spacing
+            SizedBox(height: 20),
             MainMenuCard(
-              title: 'Danh sách bài học', // Menu category 2
+              permis: UtilCommon.IsAdmin(),
+              title: 'Quản lý tài khoản người dùng', // Menu category 2
               onTap: () {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => ListCoursePage()),
-                );
-              },
-            ),
-            SizedBox(height: 20), // Add spacing
-            MainMenuCard(
-              title: 'Danh sách bài kiểm tra', // Menu category 2
-              onTap: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => TestListPage()),
-                );
-              },
-            ),
-            SizedBox(height: 20), // Add spacing
-            MainMenuCard(
-              permis: UtilCommon.IsTeacher(),
-              title: 'Tạo bài học với trợ lý ảo', // Menu category 2
-              onTap: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => FlashCardGenerate()),
+                  MaterialPageRoute(builder: (context) => UserManagementPage()),
                 );
               },
             ),
@@ -116,7 +124,7 @@ class MainMenuCard extends StatelessWidget {
     return (permis ?? true) ? Container(
       margin: EdgeInsets.symmetric(horizontal: 20), // Thêm lề ngang
       decoration: BoxDecoration(
-        border: Border.all(color: Colors.grey), // Thêm khung
+        border: Border.all(color: Colors.blue), // Thêm khung
         borderRadius: BorderRadius.circular(10), // Bo góc khung
       ),
       child: Card(

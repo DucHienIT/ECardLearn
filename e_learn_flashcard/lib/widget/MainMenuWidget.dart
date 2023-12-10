@@ -3,6 +3,8 @@ import 'package:e_learn_flashcard/pages/course/PageListCourse.dart';
 import 'package:flutter/material.dart';
 import '../pages/PageAddFlashCard.dart';
 import '../pages/PageFlashCard.dart';
+import '../pages/test/PageListTest.dart';
+import '../pages/topic/PageListTopic.dart';
 import '../pages/user/PageProfile.dart';
 
 class MainMenuWidget extends StatelessWidget {
@@ -25,6 +27,16 @@ class MainMenuWidget extends StatelessWidget {
             ),
           ),
           ListTile(
+            title: Text('Danh sách chủ đề'),
+            onTap: () {
+              Navigator.pop(context);
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => ListTopicPage()),
+              );
+            },
+          ),
+          ListTile(
             title: Text('Lớp học của bạn'),
             onTap: () {
               Navigator.pop(context);
@@ -41,6 +53,16 @@ class MainMenuWidget extends StatelessWidget {
               Navigator.push(
                 context,
                 MaterialPageRoute(builder: (context) => ListCoursePage()),
+              );
+            },
+          ),
+          ListTile(
+            title: Text('Bài kiểm tra'),
+            onTap: () {
+              Navigator.pop(context);
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => TestListPage()),
               );
             },
           ),

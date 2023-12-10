@@ -2,10 +2,8 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
-import 'package:flutter_svg/flutter_svg.dart';
 import '../../model/ModelUser.dart';
 import 'PageSignIn.dart';
-import 'package:intl/date_symbol_data_local.dart';
 import 'package:intl/intl.dart';
 
 class SignUpPage extends StatefulWidget {
@@ -78,7 +76,7 @@ class _SignUpPageState extends State<SignUpPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.purple,
+        backgroundColor: Colors.blue,
           automaticallyImplyLeading: false
       ),
       body: SingleChildScrollView(
@@ -106,7 +104,7 @@ class _SignUpPageState extends State<SignUpPage> {
                   child: Text(
                     'Đăng ký',
                     style: TextStyle(
-                      color: Colors.purple,
+                      color: Colors.blue,
                       fontSize: 32,
                       fontWeight: FontWeight.bold,
                     ),
@@ -117,7 +115,7 @@ class _SignUpPageState extends State<SignUpPage> {
                   controller: userNameController,
                   decoration: InputDecoration(
                     labelText: 'Tên người dùng',
-                    prefixIcon: Icon(Icons.person, color: Colors.purple),
+                    prefixIcon: Icon(Icons.person, color: Colors.blue),
                   ),
                   validator: (value) {
                     if (value!.isEmpty) {
@@ -131,7 +129,7 @@ class _SignUpPageState extends State<SignUpPage> {
                   controller: emailController,
                   decoration: InputDecoration(
                     labelText: 'Email',
-                    prefixIcon: Icon(Icons.email, color: Colors.purple),
+                    prefixIcon: Icon(Icons.email, color: Colors.blue),
                   ),
                   validator: (value) {
                     if (value!.isEmpty) {
@@ -145,7 +143,7 @@ class _SignUpPageState extends State<SignUpPage> {
                   controller: passwordController,
                   decoration: InputDecoration(
                     labelText: 'Mật khẩu',
-                    prefixIcon: Icon(Icons.lock, color: Colors.purple),
+                    prefixIcon: Icon(Icons.lock, color: Colors.blue),
                   ),
                   obscureText: true,
                   validator: (value) {
@@ -160,7 +158,7 @@ class _SignUpPageState extends State<SignUpPage> {
                   controller: phoneNumberController,
                   decoration: InputDecoration(
                     labelText: 'Số điện thoại',
-                    prefixIcon: Icon(Icons.phone, color: Colors.purple),
+                    prefixIcon: Icon(Icons.phone, color: Colors.blue),
                   ),
                   validator: (value) {
                     if (value!.isEmpty) {
@@ -174,7 +172,7 @@ class _SignUpPageState extends State<SignUpPage> {
                   controller: nameController,
                   decoration: InputDecoration(
                     labelText: 'Họ và tên',
-                    prefixIcon: Icon(Icons.person, color: Colors.purple),
+                    prefixIcon: Icon(Icons.person, color: Colors.blue),
                   ),
                   validator: (value) {
                     if (value!.isEmpty) {
@@ -188,7 +186,7 @@ class _SignUpPageState extends State<SignUpPage> {
                   controller: birthDateController,
                   decoration: InputDecoration(
                     labelText: 'Ngày sinh',
-                    prefixIcon: Icon(Icons.calendar_today, color: Colors.purple),
+                    prefixIcon: Icon(Icons.calendar_today, color: Colors.blue),
                     suffixIcon: IconButton(
                       icon: Icon(Icons.date_range),
                       onPressed: () {
@@ -216,7 +214,7 @@ class _SignUpPageState extends State<SignUpPage> {
                     style: TextStyle(color: Colors.white),
                   ),
                   style: ElevatedButton.styleFrom(
-                    primary: Colors.purple,
+                    primary: Colors.blue,
                   ),
                 ),
                 SizedBox(height: 20),

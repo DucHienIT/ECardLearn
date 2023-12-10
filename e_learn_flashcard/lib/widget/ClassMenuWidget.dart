@@ -5,16 +5,17 @@ import 'package:e_learn_flashcard/model/ModelUser.dart';
 import 'package:flutter/material.dart';
 
 import '../Util/AlertManager.dart';
-import '../Util/Define.dart';
-import '../model/ModelGlobalData.dart';
+import '../model/ModelNotification.dart';
 import '../model/ModelTest.dart';
+import 'SearchStudentBarWidget.dart';
 
 class ClassMenuWidget extends StatelessWidget {
   final bool isOwner;
   final List<User> studentList;
   final List<Test> lstTest;
+  final MyClass thisClass;
 
-  ClassMenuWidget({required this.isOwner ,required this.studentList, required this.lstTest});
+  ClassMenuWidget({required this.isOwner, required this.thisClass ,required this.studentList, required this.lstTest});
   String UrlApi = ApiPaths.getStudentJoinTestPath();
 
 
@@ -37,6 +38,38 @@ class ClassMenuWidget extends StatelessWidget {
   void setData(Map<String, dynamic> data) {
     print("Thêm thành công");
   }
+
+  void addStudentJoinClass(User user)
+  {
+    String apiUrl = ApiPaths.getStudentJoinClassPath();
+    Map<String, dynamic> dataBody = {
+      'studentId': user.id,
+      'classId': thisClass.classId,
+    };
+    AddDataFromAPI(apiUrl, dataBody, setJoinData);
+    studentList.add(user);
+  }
+  void setJoinData(Map<String, dynamic> data)
+  {
+  }
+  void removeStudentJoinClass(User user){
+    String apiUrl = ApiPaths.getStudentJoinClassIdPath(user.id);
+    DeleteDataFromAPI(apiUrl, (){
+
+    });
+    studentList.remove(user);
+  }
+  void addNotiTestForClass(Test test)
+  {
+    String apiUrl = ApiPaths.getNotificationPath();
+    Notifi noti = Notifi(
+        notificationTitle: "Thông báo  bài kiểm tra mới",
+        notificationContent: "Bài kiểm tra " + test.testName + " được thêm vào lớp.",
+        classId: thisClass.classId,
+        teacherId: thisClass.teacherId);
+    AddDataFromAPI(apiUrl, noti.toJson(), setJoinData);
+  }
+
 
   @override
   Widget build(BuildContext context) {
@@ -63,12 +96,56 @@ class ClassMenuWidget extends StatelessWidget {
                 title: Text(student.name),
                 // Thêm xử lý khi nhấn vào học sinh
                 onTap: () {
-                  // TODO: Xử lý khi chọn học sinh
                   Navigator.pop(context);
                 },
+                trailing: IconButton(
+                  icon: Icon(Icons.delete),
+                  onPressed: () {
+                    showDialog(
+                      context: context,
+                      builder: (BuildContext context) {
+                        return AlertDialog(
+                          title: Text('Xác nhận xóa học sinh'),
+                          content: Text('Bạn có chắc chắn muốn xóa học sinh ${student.name}?'),
+                          actions: [
+                            TextButton(
+                              onPressed: () {
+                                removeStudentJoinClass(student);
+                                Navigator.pop(context); // Close the dialog
+                              },
+                              child: Text('Xóa'),
+                            ),
+                            TextButton(
+                              onPressed: () {
+                                Navigator.pop(context); // Close the dialog
+                              },
+                              child: Text('Hủy'),
+                            ),
+                          ],
+                        );
+                      },
+                    );
+                  },
+                ),
               );
             }).toList(),
           ),
+          isOwner ? ElevatedButton(
+            onPressed: () {
+              showModalBottomSheet(
+                context: context,
+                builder: (BuildContext context) {
+                    return SearchStudentBarApp(
+                      onUserSelected: (User user) {
+                        addStudentJoinClass(user);
+                        Navigator.pop(context);
+                    },
+                  );
+                },
+              );
+            },
+            child: Text('Thêm học sinh vào lớp'),
+          ) : SizedBox(),
           isOwner ? ElevatedButton(
             onPressed: () {
               showModalBottomSheet(
@@ -119,6 +196,7 @@ class ClassMenuWidget extends StatelessWidget {
                                           ),
                                           onAction: () {
                                             JoinListStudentToTest(test.testId);
+                                            addNotiTestForClass(test);
                                             Navigator.pop(context);
                                           },
                                         );
@@ -138,7 +216,6 @@ class ClassMenuWidget extends StatelessWidget {
             },
             child: Text('Thêm Bài Kiểm Tra'),
           ) : SizedBox(),
-
         ],
 
       ),

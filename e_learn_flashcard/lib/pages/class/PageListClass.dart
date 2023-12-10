@@ -4,6 +4,7 @@ import 'package:e_learn_flashcard/Util/UtilCallApi.dart';
 import 'package:e_learn_flashcard/model/ModelCourse.dart';
 import 'package:e_learn_flashcard/pages/class/PageAddClass.dart';
 import 'package:e_learn_flashcard/pages/class/PageClassDetail.dart';
+import 'package:e_learn_flashcard/pages/class/PageUpdateClass.dart';
 import 'package:e_learn_flashcard/widget/SearchClassBarWidget.dart';
 import 'package:flutter/material.dart';
 import '../../Util/AlertManager.dart';
@@ -67,39 +68,58 @@ class _ClassListPageState extends State<ClassListPage> {
         child: ListView.builder(
           itemCount: classes.length,
           itemBuilder: (context, index) {
-            bool isOwner = classes[index].teacherId == GlobalData.LoginUser!.id;
+            bool canDelete = classes[index].teacherId == GlobalData.LoginUser!.id;
+            canDelete = UtilCommon.IsAdmin();
             return Card(
               child: ListTile(
                 leading: Icon(Icons.school),
                 title: Text(classes[index].className, style: TextStyle(fontWeight: FontWeight.bold)),
                 subtitle: Text(classes[index].classDescription),
-                trailing:isOwner ? IconButton(
-                  icon: Icon(Icons.delete, color: Colors.red),
-                  onPressed: () {
-                    showDialog(
-                      context: context,
-                      builder: (BuildContext context) {
-                        return MyAlertDialog(
-                          title: "Xác nhận",
-                          message:  RichText(
-                            text: TextSpan(
-                              style: DefaultTextStyle.of(context).style,
-                              children: <TextSpan>[
-                                TextSpan(
-                                  text: 'Xóa khóa học này?',
-                                  style: TextStyle(fontSize: 18),
-                                ),
-                              ],
-                            ),
+                trailing: canDelete
+                    ? Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    IconButton(
+                      icon: Icon(Icons.edit, color: Colors.blue),
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => UpdateClassPage(thisClass: classes[index]),
                           ),
-                            onAction: () {
-                            deleteCourse(index);
+                        );
+                      },
+                    ),
+                    IconButton(
+                      icon: Icon(Icons.delete, color: Colors.red),
+                      onPressed: () {
+                        showDialog(
+                          context: context,
+                          builder: (BuildContext context) {
+                            return MyAlertDialog(
+                              title: "Xác nhận",
+                              message: RichText(
+                                text: TextSpan(
+                                  style: DefaultTextStyle.of(context).style,
+                                  children: <TextSpan>[
+                                    TextSpan(
+                                      text: 'Xóa lớp học này?',
+                                      style: TextStyle(fontSize: 18),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                              onAction: () {
+                                deleteCourse(index);
+                              },
+                            );
                           },
                         );
                       },
-                    );
-                  },
-                ) : null,
+                    ),
+                  ],
+                )
+                    : null,
                 onTap: () {
                   Navigator.push(
                     context,

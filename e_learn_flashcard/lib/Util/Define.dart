@@ -1,5 +1,5 @@
 class Define {
-
+  static const String openAPIKey = "API_KEY";
 }
 
 enum RoleUser{

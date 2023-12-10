@@ -20,7 +20,11 @@ Future<void> readUserData() async {
   }
 }
 
-void main() => runApp(MyApp());
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await GlobalData.updateLoginCount();
+  runApp(MyApp());
+}
 
 class MyApp extends StatelessWidget {
   @override

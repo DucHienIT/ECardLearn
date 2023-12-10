@@ -10,6 +10,8 @@ import '../../model/ModelGlobalData.dart';
 import '../../model/ModelTopic.dart';
 import 'package:http/http.dart' as http;
 
+import 'PageUpdateCourse.dart';
+
 class ListCoursePage extends StatefulWidget {
   @override
   _ListCoursePageState createState() => _ListCoursePageState();
@@ -55,33 +57,51 @@ class _ListCoursePageState extends State<ListCoursePage> {
                 leading: Icon(Icons.book),
                 title: Text(courses[index].courseName, style: TextStyle(fontWeight: FontWeight.bold)),
                 subtitle: Text(courses[index].courseDescription),
-                trailing:isOwner ? IconButton(
-                  icon: Icon(Icons.delete, color: Colors.red),
-                  onPressed: () {
-                    showDialog(
-                      context: context,
-                      builder: (BuildContext context) {
-                        return MyAlertDialog(
-                          title: "Xác nhận",
-                          message:  RichText(
-                            text: TextSpan(
-                              style: DefaultTextStyle.of(context).style,
-                              children: <TextSpan>[
-                                TextSpan(
-                                  text: 'Xóa khóa học này',
-                                  style: TextStyle(fontSize: 18),
-                                ),
-                              ],
+                trailing: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    if (isOwner)
+                      IconButton(
+                        icon: Icon(Icons.edit, color: Colors.blue),
+                        onPressed: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => UpdateCoursePage(course: courses[index]),
                             ),
-                          ),
-                          onAction: () {
-                            deleteCourse(index);
-                          },
-                        );
-                      },
-                    );
-                  },
-                ) : null,
+                          );
+                        },
+                      ),
+                    if (isOwner)
+                      IconButton(
+                        icon: Icon(Icons.delete, color: Colors.red),
+                        onPressed: () {
+                          showDialog(
+                            context: context,
+                            builder: (BuildContext context) {
+                              return MyAlertDialog(
+                                title: "Xác nhận",
+                                message: RichText(
+                                  text: TextSpan(
+                                    style: DefaultTextStyle.of(context).style,
+                                    children: <TextSpan>[
+                                      TextSpan(
+                                        text: 'Xóa khóa học này',
+                                        style: TextStyle(fontSize: 18),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                                onAction: () {
+                                  deleteCourse(index);
+                                },
+                              );
+                            },
+                          );
+                        },
+                      ),
+                  ],
+                ),
                 onTap: () {
                   Navigator.push(
                     context,

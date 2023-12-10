@@ -1,28 +1,22 @@
-class Notification {
+class Notifi {
   final String notificationTitle;
   final String notificationContent;
-  final String createdUserId;
-  final DateTime createdDate;
-  final String updatedUserId;
-  final DateTime updatedDate;
+  final String classId;
+  final String teacherId;
 
-  Notification({
+  Notifi({
     required this.notificationTitle,
     required this.notificationContent,
-    required this.createdUserId,
-    required this.createdDate,
-    required this.updatedUserId,
-    required this.updatedDate,
+    required this.classId,
+    required this.teacherId,
   });
 
-  factory Notification.fromJson(Map<String, dynamic> json) {
-    return Notification(
+  factory Notifi.fromJson(Map<String, dynamic> json) {
+    return Notifi(
       notificationTitle: json['notificationTitle'] as String,
       notificationContent: json['notificationContent'] as String,
-      createdUserId: json['createdUserId'] as String,
-      createdDate: DateTime.parse(json['createdDate']),
-      updatedUserId: json['updatedUserId'] as String,
-      updatedDate: DateTime.parse(json['updatedDate']),
+      classId: json['classId'] as String,
+      teacherId: json['teacherId'] as String,
     );
   }
 
@@ -30,10 +24,8 @@ class Notification {
     return {
       'notificationTitle': notificationTitle,
       'notificationContent': notificationContent,
-      'createdUserId': createdUserId,
-      'createdDate': createdDate.toIso8601String(),
-      'updatedUserId': updatedUserId,
-      'updatedDate': updatedDate.toIso8601String(),
+      'classId': classId,
+      'teacherId': teacherId,
     };
   }
 }
